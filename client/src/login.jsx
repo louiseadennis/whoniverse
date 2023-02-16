@@ -23,7 +23,7 @@ export const Login = (props) => {
 		setUserName("");
 		setPass("");
 		setMessage(resJson.message);
-		props.login(resJson.loggedin);
+		props.login(resJson.loggedin, resJson.username);
 	    } else {
 		setMessage(resJson.message);
 	    }

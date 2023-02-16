@@ -17,7 +17,7 @@ export const Home = (props) => {
 	  {
         {
           'location': <Location />,
-           'profile': <Profile />,
+            'profile': <Profile getUser={props.getUser} />,
           'develop': <Develop />
         }[currentPage] || < Location />
       }

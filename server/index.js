@@ -70,7 +70,7 @@ app.post('/auth', function(request, response) {
 		request.session.loggedin = true;
 		request.session.username = username;
 		// Redirect to home page
-		response.json({loggedin :true});
+		response.json({loggedin :true, username: username});
 	    } else {
 		console.log("failed");
 		response.json({message: 'Incorrect Username and/or Password!'});
