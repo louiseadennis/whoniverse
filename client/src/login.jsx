@@ -7,7 +7,6 @@ export const Login = (props) => {
 
     const handleSubmit = async (e) => {
 	e.preventDefault();
-	console.log(username);
 	try {
 	    let res = await fetch("/auth", {
 		method: "POST",
@@ -24,6 +23,7 @@ export const Login = (props) => {
 		setUserName("");
 		setPass("");
 		setMessage(resJson.message);
+		props.login(resJson.loggedin);
 	    } else {
 		setMessage(resJson.message);
 	    }

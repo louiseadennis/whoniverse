@@ -15,28 +15,23 @@ function App() {
 	setCurrentForm(formName);
     }
 
-    fetch("/loggedin").then((res) => res.json()).then((data) => setLoggedIn(data.loggedin));
-	
-    if (loggedin === true) {
-	return (
-		<div className="App">
-		{
-			<Home />
-		}
-		</div>
-	);
-
-    } else {
-	return (
-
-	
-		<div className="App">
-		{
-		    currentForm === "login"? <Login onFormSwitch={toggleForm} /> : <Register onFormSwitch={toggleForm} />
-		}
-	    </div>
-	);
+    const logIn = (loggedin) => {
+	setLoggedIn(loggedin);
     }
+
+    const handleLogoutClick = () => {
+	fetch("/logout");
+	setLoggedIn(false);
+	console.log("logged out");
+    }
+
+    return (
+	    <div className="App">
+	    {loggedin ?	<Home handleLogoutClick={handleLogoutClick} /> :
+	     currentForm === "login"? <Login onFormSwitch={toggleForm} login={logIn} /> : <Register onFormSwitch={toggleForm} />}
+	    </div>
+    );
+
 }
 
 export default App;

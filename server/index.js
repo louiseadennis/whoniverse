@@ -65,7 +65,7 @@ app.post('/auth', function(request, response) {
 	    if (error) throw error;
 	    // If the account exists
 	    if (results.length > 0) {
-		console.log("logged in");
+		console.log("logging in");
 		// Authenticate the user
 		request.session.loggedin = true;
 		request.session.username = username;
@@ -84,14 +84,24 @@ app.post('/auth', function(request, response) {
     }
 });
 
-	 app.get('/loggedin', function(request, response) {
-	     if (request.session.loggedin) {
-		 console.log("logged in test true");
-		 response.json({loggedin: true});
-	     } else {
-		 console.log("logged in test false");
-		 response.json({loggedin: false});
-	     }});
+app.get('/loggedin', function(request, response) {
+    console.log(request.session.loggedin);
+     if (request.session.loggedin) {
+	 console.log("logged in test true");
+	 response.json({loggedin: true});
+     } else {
+	 console.log("logged in test false");
+	 response.json({loggedin: false});
+     }});
+
+app.get('/logout', function(req, res) {
+    if (req.session.loggedin) {
+	req.session.loggedin = false;
+	console.log("logging out");
+	console.log(req.session.loggedin);
+	res.json({loggedin :false});
+    } 
+});
 	     
 	 
 // http://localhost:3000/home

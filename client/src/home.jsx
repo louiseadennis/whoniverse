@@ -4,7 +4,7 @@ import { Location } from "./location";
 import { Profile } from "./profile";
 import { Develop } from "./develop";
 
-export const Home = () => {
+export const Home = (props) => {
     const [currentPage, setCurrentPage] = useState('current_page');
     
     const changePage = (pageName) => {
@@ -13,7 +13,7 @@ export const Home = () => {
 
     return (
 	<div>
-	  <NavBar onPageChange={changePage}/>
+	  <NavBar onPageChange={changePage} handleLogoutClick={props.handleLogoutClick}/>
 	  {
         {
           'location': <Location />,
