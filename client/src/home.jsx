@@ -8,16 +8,16 @@ export const Home = (props) => {
     const [currentPage, setCurrentPage] = useState('current_page');
     
     const changePage = (pageName) => {
-	setCurrentPage(pageName);
+	    setCurrentPage(pageName);
     }
 
     return (
-	<div>
+	<div className="home">
 	  <NavBar onPageChange={changePage} handleLogoutClick={props.handleLogoutClick}/>
 	  {
         {
           'location': <Location />,
-            'profile': <Profile getUser={props.getUser} />,
+          'profile': <Profile getUser={props.getUser} />,
           'develop': <Develop />
         }[currentPage] || < Location />
       }

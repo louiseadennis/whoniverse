@@ -10,26 +10,26 @@ import { User } from "./user";
 
 function App() {
     const [currentForm, setCurrentForm] = useState('login');
-    const [loggedin, setLoggedIn] = useState('loggedin');
+    const [loggedin, setLoggedIn] = useState(false);
     const [user, setUser] = useState( new User("none") );
 
     const toggleForm = (formName) => {
-	setCurrentForm(formName);
+	    setCurrentForm(formName);
     }
 
     const logIn = (loggedin, username) => {
-	setLoggedIn(loggedin);
-	console.log(username);
-	setUser( new User(username) );
+	    setLoggedIn(loggedin);
+	    console.log(username);
+	    setUser( new User(username) );
 //	const user = new User(username);
 //	setUser( new User(username) );
     }
 
     const handleLogoutClick = () => {
-	fetch("/logout");
-	setLoggedIn(false);
-	setUser( new User("none") );
-	console.log("logged out");
+	    fetch("/logout");
+	    setLoggedIn(false);
+	    setUser( new User("none") );
+	    console.log("logged out");
     }
 
     const getUser = () => {

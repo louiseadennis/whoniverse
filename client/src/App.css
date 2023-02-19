@@ -1,21 +1,45 @@
+body {
+    margin: 0 auto;
+    border: 5px solid black;
+}
+
+.root {
+    margin: 0 auto;
+    border: 5px solid blue;
+}
+  
 .App {
-    text-align: center;
-    display: flex;
     min-height: 100vh;
-    align-items: center;
+    padding: 1em;
     background-image: linear-gradient(79deg, #7439db, #C66fBC 48%, #f7944d);
 }
 
-.auth-form-container, .login-form, .register-form {
+.auth-form-container {
     display: flex;
-    flex-direction: column;
+    text-align: center;
+    margin: auto;
+    border-radius: 10px;
+    justify-content: center;
+    /* border: 1px solid white; */
 }
 
-.auth-form-container {
+.auth-form-container-inner {
+    /* display: flex; */
+    text-align: center;
+    flex-direction: column;
     padding: 5rem;
     border: 1px solid white;
     border-radius: 10px;
     margin: 0.5rem;
+    width: 10em;
+}
+
+
+.login-form, .register-form {
+    display: flex; 
+    text-align: center;
+    flex-direction: column;
+    margin: auto;
 }
 
 label {
@@ -38,6 +62,11 @@ button {
     cursor:pointer;
 }
 
+.home {
+    display: flex;
+    flex-direction: column;
+}
+
 .nav-button {
     background: none;
     color: black;
@@ -46,9 +75,9 @@ button {
 
 .navigation-menu {
     background-color: white;
-    position: fixed;
-    top:0;
-    width:100%;
+    flex: 1 1 auto;
+    border: 1px solid black;
+    text-align: center;
 }
 
 .navigation-menu ul {
@@ -62,8 +91,7 @@ button {
 }
 
 .Page {
-    margin: auto;
-    width: 100%;
     border: 1px solid white;
     border-radius: 10px;
+    text-align: center;
 }
