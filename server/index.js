@@ -78,7 +78,7 @@ app.post('/auth', function(request, response) {
 	    //response.end();
 	});
     } else {
-	console.log("noe user name and password");
+	console.log("no user name and password");
 	response.json({message: 'Please enter Username and Password!'});
 	//response.end();
     }
@@ -103,19 +103,42 @@ app.get('/logout', function(req, res) {
     } 
 });
 	     
-	 
-// http://localhost:3000/home
-//app.get('/home', function(request, response) {
-//	// If the user is loggedin
-//	if (request.session.loggedin) {
-//		// Output username
-//	    response.json({message: 'Welcome back, ' + request.session.username + '!'});
-///	} else {
-//		// Not logged in
-//	    response.json({message: 'Please login to view this page!'});
-//	}
-//	//response.end();
-//});
+// http://localhost:3001/auth
+app.post('/register', function(request, response) {
+    // Capture the input fields
+    console.log(request.body);
+    let username = request.body.username;
+    let email = request.body.email;
+    let password = request.body.password;
+    // Ensure the input fields exists and are not empty
+    console.log("entered register" + username + email + password);
+    if (username && password && email) {
+	// Execute SQL query that'll select the account from the database based on the specified username and password
+	connection.query('SELECT * FROM accounts WHERE username = ?', [username], function(error, results, fields) {
+	    // If there is an issue with the query, output the error
+	    if (error) throw error;
+	    // If the account exists
+	    if (results.length > 0) {
+		console.log("failed");
+		response.status(201).json({message: 'Username exists!'});
+	    } else {
+		connection.query('INSERT into accounts (username, email, password) VALUES (?, ?, ?)', [username, email, password], function(error, results, fields) {
+		    if (error) throw error;
+		    console.log("registering");
+		    // Authenticate the user
+		    // Redirect to home page
+		    response.json({message: "Registered!"});
+		})
+	    }			
+	    //response.end();
+	});
+    } else {
+	console.log("no user name, password and email");
+	response.status(201).json({message: 'Please enter Username, Email and Password!'});
+	//response.end();
+    }
+})
+
 
 // Finally, our Node.js server needs to listen on a port, so for testing purposes, we can use port 3000.
 app.listen(3001);
