@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import logo from './assets/logo.png';
 
 export const Login = (props) => {
     const [username, setUserName] = useState('');
@@ -34,7 +35,8 @@ export const Login = (props) => {
     
     return (
 	<div className="auth-form-container">
-		<div className="auth-form-container-inner">
+	  <div className="auth-form-container-inner">
+	    <img src={logo} width={200} alt="Logo"/>
 		  <h2>Login Form</h2>
 		  {message}
 	<form className="login-form" onSubmit={handleSubmit}> 
