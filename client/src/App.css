@@ -26,7 +26,7 @@
 }
 
 
-.login-form, .register-form {
+.login-form, .register-form, .add-location-form {
     display: flex; 
     text-align: center;
     flex-direction: column;
@@ -92,4 +92,66 @@ button {
     border: 1px solid white;
     border-radius: 10px;
     text-align: center;
+}
+
+.develop-menu-item {
+  border: 1px solid #CCC;
+  margin-bottom: 20px;
+}
+
+.develop-menu-item .develop-menu-item-head {
+    transition: all linear 0.5s;
+    text-align: left;
+  }
+
+.develop-menu-item .develop-menu-item-head-title {
+    font-size: 2em;
+}
+  
+
+.develop-menu-item.item-inactive .develop-menu-item-body {
+  overflow: hidden;
+  max-height: 0;
+  transition: all linear 0.5s;
+  text-align: left;
+}
+
+.develop-menu-item.item-active .develop-menu-item-body {
+  max-height: 1500px;
+  transition: all linear 0.5s 0.3s;
+  text-align: left;
+}
+
+.sub-develop-menu-item {
+  border: 1px solid #CCC;
+  margin-bottom: 20px;
+}
+
+.sub-develop-menu-item .sub-develop-menu-item-head {
+    transition: all linear 0.5s;
+    text-align: left;
+  }
+
+.sub-develop-menu-item .sub-develop-menu-item-head-title {
+    font-size: 2em;
+}
+  
+
+.sub-develop-menu-item.item-inactive .sub-develop-menu-item-body {
+  overflow: hidden;
+  max-height: 0;
+  transition: all linear 0.5s;
+  text-align: left;
+}
+
+.sub-develop-menu-item.item-active .sub-develop-menu-item-body {
+  max-height: 200px;
+  transition: all linear 0.5s 0.3s;
+  text-align: left;
+}
+
+.menu-button {
+    background: none;
+    text-align: left;
+    font-size: 1em;
 }

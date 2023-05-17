@@ -4,37 +4,23 @@ export class Location {
     initialVillains = [];
     initialTransports = [];
     initialAllies = [];
-    
+
     constructor(name) {
-	this.name = {name: name};
+	this.state = {name: name};
+	this.description = "";
     }
 
     get name() {
-	return this.name;
+	return this.state.name;
     }
 
-    set description(description) {
-	this.description = description;
-    }
-
-    get description() {
-	return this.description;
-    }
-
-    set picture(picture_string) {
-	this.picture = picture_string;
+    set picture(picture_name) {
+	this.picture_string = "/assets/locations/" + picture_name;
+	this.picture_name = picture_name;
     }
 
     get picture() {
-	return this.picture;
-    }
-
-    set FSA(locationFSA) {
-	this.FSA = locationFSA;
-    }
-
-    get FSA() {
-	return this.FSA;
+	return this.picture_string;
     }
     
     addCritter(monster) {

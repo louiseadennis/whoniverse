@@ -139,6 +139,73 @@ app.post('/register', function(request, response) {
     }
 })
 
+// http://localhost:3001/add_location
+app.post('/add_location', function(request, response) {
+    // Capture the input fields
+    console.log(request.body);
+    let location_name = request.body.location_name;
+    let description = request.body.description;
+    let image_name = request.body.image_name;
+    // Ensure the input fields exists and are not empty
+    console.log("entered add location" + location_name + description + image_name);
+    if (location_name && description && image_name) {
+	// Execute SQL query
+	connection.query('SELECT * FROM locations WHERE name = ?', [location_name], function(error, results, fields) {
+	    // If there is an issue with the query, output the error
+	    if (error) throw error;
+	    if (results.length > 0) {
+		console.log("failed");
+		response.status(201).json({message: 'Location exists!'});
+	    } else {
+		connection.query('INSERT into locations (name, description, picture) VALUES (?, ?, ?)', [location_name, description, image_name], function(error, results, fields) {
+		    if (error) throw error;
+		    console.log("adding location");
+		    // Authenticate the user
+		    // Redirect to home page
+		    response.json({message: "Location Added!"});
+		})
+	    }			
+	    //response.end();
+	});
+    } else {
+	console.log("no location name, description and picture");
+	response.status(201).json({message: 'Please enter Location Name, Description and Picture!'});
+	//response.end();
+    }
+})
+
+// http://localhost:3001/get_location
+app.post('/get_location', function(request, response) {
+    // Capture the input fields
+    console.log(request.body);
+    let id = request.body.id;
+    // Ensure the input fields exists and are not empty
+    console.log("entered get location " + id);
+    if (id) {
+	// Execute SQL query 
+	connection.query('SELECT * FROM locations WHERE id = ?', [id], function(error, results, fields) {
+	    // If there is an issue with the query, output the error
+	    if (error) throw error;
+	    // If the account exists
+	    if (results.length > 0) {
+		console.log("getting location");
+		let name = results[0].name;
+		response.json({location_name : name, description: results[0].description, image_name: results[0].picture});
+		console.log(name);
+		console.log(response.location_name);
+	    } else {
+		console.log("failed");
+		response.json({message: 'Incorrect Username and/or Password!'});
+	    }			
+	    //response.end();
+	});
+    } else {
+	console.log("no id");
+	response.json({message: 'Please enter Location ID!'});
+	//response.end();
+    }
+});
+
 
 // Finally, our Node.js server needs to listen on a port, so for testing purposes, we can use port 3000.
 app.listen(3001);

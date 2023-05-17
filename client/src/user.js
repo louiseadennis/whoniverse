@@ -82,7 +82,14 @@ export class User {
     set POV(location_state) {
 	this.POV = location_state;
     }
-    
+
+    getStory() {
+	return this.story;
+    }
+
+    setStory(story) {
+	this.story = story;
+    }
 
     
 }
