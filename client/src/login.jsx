@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import logo from './assets/logo.png';
+import { User } from "./user";
 
 export const Login = (props) => {
     const [username, setUserName] = useState('');
@@ -21,12 +22,16 @@ export const Login = (props) => {
 			});
 			let resJson = await res.json();
 			if (res.status === 200) {
-			setUserName("");
-			setPass("");
-			setMessage(resJson.message);
-			props.login(resJson.loggedin, resJson.username);
+				setUserName("");
+				setPass("");
+				setMessage(resJson.message);
+				console.log("calling log in");
+				let user = new User(resJson.username);
+				user.POV = resJson.pov_location;
+				console.log("setting user");
+				props.login(user);
 			} else {
-			setMessage(resJson.message);
+				setMessage(resJson.message);
 			}
 		} catch (err) {
 			console.log(err);

@@ -70,7 +70,7 @@ app.post('/auth', function(request, response) {
 		request.session.loggedin = true;
 		request.session.username = username;
 		// Redirect to home page
-		response.json({loggedin :true, username: username});
+		response.json({loggedin :true, username: username, pov_location: results[0].pov_location});
 	    } else {
 		console.log("failed");
 		response.json({message: 'Incorrect Username and/or Password!'});
@@ -160,12 +160,44 @@ app.post('/add_location', function(request, response) {
 		connection.query('INSERT into locations (name, description, picture) VALUES (?, ?, ?)', [location_name, description, image_name], function(error, results, fields) {
 		    if (error) throw error;
 		    console.log("adding location");
-		    // Authenticate the user
-		    // Redirect to home page
 		    response.json({message: "Location Added!"});
 		})
-	    }			
+	    }
 	    //response.end();
+	});
+    } else {
+	console.log("no location name, description and picture");
+	response.status(201).json({message: 'Please enter Location Name, Description and Picture!'});
+	//response.end();
+    }
+})
+
+// http://localhost:3001/edit_location
+app.post('/edit_location', function(request, response) {
+    // Capture the input fields
+    console.log(request.body);
+    let id = request.body.location_id;
+    let location_name = request.body.location_name;
+    let description = request.body.description;
+    let image_name = request.body.image_name;
+    // Ensure the input fields exists and are not empty
+    console.log("entered edit location" + id + location_name + description + image_name);
+    if (id && location_name && description && image_name) {
+	// Execute SQL query
+	connection.query('SELECT * FROM locations WHERE id = ?', [id], function(error, results, fields) {
+	    // If there is an issue with the query, output the error
+	    if (error) throw error;
+	    if (results.length > 0) {
+		connection.query('UPDATE locations SET name = ?, description = ?, picture = ? WHERE id = ?', [location_name, description, image_name, id], function(error, results, fields) {
+		    if (error) throw error;
+		    console.log("editing location");
+		    response.json({message: "Location Edited!"});
+		})
+	    //response.end();
+	    } else {
+		console.log("failed");
+		response.status(201).json({message: 'Location exists!'});
+	    }
 	});
     } else {
 	console.log("no location name, description and picture");
@@ -195,7 +227,7 @@ app.post('/get_location', function(request, response) {
 		console.log(response.location_name);
 	    } else {
 		console.log("failed");
-		response.json({message: 'Incorrect Username and/or Password!'});
+		response.json({message: 'Incorrect Location ID!'});
 	    }			
 	    //response.end();
 	});
@@ -206,6 +238,93 @@ app.post('/get_location', function(request, response) {
     }
 });
 
+
+// http://localhost:3001/get_location_thumbnails
+app.post('/get_location_thumbnails', function(request, response) {
+    // Execute SQL query 
+    connection.query('SELECT id, picture, name FROM locations', [], function(error, results, fields) {
+	    // If there is an issue with the query, output the error
+	    if (error) throw error;
+	    // If the account exists
+	    if (results.length > 0) {
+		console.log("getting locations");
+		response.json(results);
+	    } else {
+		console.log("failed");
+		response.json({message: 'Incorrect SQL in get locations thumbnails!'});
+	    }			
+	    //response.end();
+	});
+});
+
+
+// http://localhost:3001/get_location_state
+app.post('/get_location_state', function(request, response) {
+    // Capture the input fields
+    console.log(request.body);
+    let id = request.body.id;
+    // Ensure the input fields exists and are not empty
+    console.log("entered get location state " + id);
+    if (id) {
+	// Execute SQL query 
+	connection.query('SELECT * FROM location_states WHERE id = ?', [id], function(error, results, fields) {
+	    // If there is an issue with the query, output the error
+	    if (error) throw error;
+	    // If the account exists
+	    if (results.length > 0) {
+		console.log("getting location state");
+		let name = results[0].name;
+		response.json({location_id : results[0].location_id});
+	    } else {
+		console.log("failed");
+		response.json({message: 'Incorrect Location ID!'});
+	    }			
+	    //response.end();
+	});
+    } else {
+	console.log("no id");
+	response.json({message: 'Please enter Location State ID!'});
+	//response.end();
+    }
+});
+
+app.post('/get_character', function(request, response) {
+    console.log(request.body);
+    let id = request.body.id;
+    if (id) {
+	connection.query('SELECT * from characters WHERE id = ?', [id], function(error, results, fields) {
+	    if (error) throw error;
+	    if (results.length > 0) {
+		response.json(results);
+	    } else {
+		console.log("failed");
+		response.json({message: 'Incorrect Character ID!'});
+	    }
+	}
+    } else {
+	console.log("no id");
+	response.json({message: 'Please enter a Character ID!'});
+    }
+});
+
+// http://localhost:3001/get_character_thumbnails
+app.post('/get_character_thumbnails', function(request, response) {
+    // Execute SQL query 
+    connection.query('SELECT char_id, picture FROM character_icons WHERE default = 1', [], function(error, results, fields) {
+	    // If there is an issue with the query, output the error
+	    if (error) throw error;
+	    // If the account exists
+	    if (results.length > 0) {
+		response.json(results);
+	    } else {
+		response.json({message: 'Incorrect SQL in character thumbnails!'});
+	    }			
+	    //response.end();
+	});
+});
+
+
+}
 
 // Finally, our Node.js server needs to listen on a port, so for testing purposes, we can use port 3000.
 app.listen(3001);

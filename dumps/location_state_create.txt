@@ -1,0 +1,6 @@
+CREATE TABLE `location_states` (
+       `id` int NOT NULL AUTO_INCREMENT,
+       `location_id` int NOT NULL,
+       `user_id` int NOT NULL,
+       PRIMARY KEY (`id`)
+       )

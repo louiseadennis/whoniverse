@@ -75,14 +75,6 @@ export class User {
 	}
     }
 
-    get POV() {
-	return this.POV;
-    }
-
-    set POV(location_state) {
-	this.POV = location_state;
-    }
-
     getStory() {
 	return this.story;
     }

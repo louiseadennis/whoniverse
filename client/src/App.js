@@ -1,6 +1,6 @@
 // client/src/App.js
 
-import React, {useState} from "react";
+import React, { useState, useEffect } from "react";
 import logo from './logo.svg';
 import './App.css';
 import { Login } from "./login";
@@ -11,18 +11,17 @@ import { User } from "./user";
 function App() {
     const [currentForm, setCurrentForm] = useState('login');
     const [loggedin, setLoggedIn] = useState(false);
-    const [user, setUser] = useState( new User("none") );
+    const [user, setUser] = useState( );
 
     const toggleForm = (formName) => {
 	    setCurrentForm(formName);
     }
 
-    const logIn = (loggedin, username) => {
-	    setLoggedIn(loggedin);
-	    console.log(username);
-	    setUser( new User(username) );
-//	const user = new User(username);
-//	setUser( new User(username) );
+    const logIn = (userIn) => {
+	setUser( userIn );
+	console.log("user set logint");
+	console.log(userIn.POV);
+	setLoggedIn(true);
     }
 
     const handleLogoutClick = () => {
@@ -32,13 +31,9 @@ function App() {
 	    console.log("logged out");
     }
 
-    const getUser = () => {
-	return user;
-    }
-
     return (
 	    <div className="App">
-	    {loggedin ?	<Home handleLogoutClick={handleLogoutClick} getUser={getUser} /> :
+	    {loggedin ? <Home handleLogoutClick={handleLogoutClick} user={user} pov={user.POV}/> :
 	     currentForm === "login"? <Login onFormSwitch={toggleForm} login={logIn} /> : <Register onFormSwitch={toggleForm} />}
 	    </div>
     );
