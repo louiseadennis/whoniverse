@@ -145,7 +145,7 @@ button {
 }
 
 .sub-develop-menu-item.item-active .sub-develop-menu-item-body {
-  max-height: 200px;
+  max-height: 1000px;
   transition: all linear 0.5s 0.3s;
   text-align: left;
 }
@@ -154,4 +154,10 @@ button {
     background: none;
     text-align: left;
     font-size: 1em;
+}
+
+.thumbnails {
+    display: flex;
+    flex-direction: row;
+    flex-wrap:wrap;
 }

@@ -247,7 +247,8 @@ app.post('/get_location_thumbnails', function(request, response) {
 	    if (error) throw error;
 	    // If the account exists
 	    if (results.length > 0) {
-		console.log("getting locations");
+		// console.log("getting locations");
+		// console.log(results);
 		response.json(results);
 	    } else {
 		console.log("failed");
@@ -300,7 +301,7 @@ app.post('/get_character', function(request, response) {
 		console.log("failed");
 		response.json({message: 'Incorrect Character ID!'});
 	    }
-	}
+	});
     } else {
 	console.log("no id");
 	response.json({message: 'Please enter a Character ID!'});
@@ -310,21 +311,20 @@ app.post('/get_character', function(request, response) {
 // http://localhost:3001/get_character_thumbnails
 app.post('/get_character_thumbnails', function(request, response) {
     // Execute SQL query 
-    connection.query('SELECT char_id, picture FROM character_icons WHERE default = 1', [], function(error, results, fields) {
+    connection.query("SELECT character_icons.char_id, character_icons.picture, characters.name FROM character_icons INNER JOIN characters ON character_icons.char_id = characters.char_id WHERE `default` = 1", [], function(error, results, fields) {
 	    // If there is an issue with the query, output the error
 	    if (error) throw error;
-	    // If the account exists
-	    if (results.length > 0) {
+	if (results.length > 0) {
+		console.log("getting characters");
 		response.json(results);
 	    } else {
+		console.log("sending message");
 		response.json({message: 'Incorrect SQL in character thumbnails!'});
 	    }			
 	    //response.end();
-	});
+    });
 });
 
-
-}
 
 // Finally, our Node.js server needs to listen on a port, so for testing purposes, we can use port 3000.
 app.listen(3001);
