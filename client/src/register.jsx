@@ -23,13 +23,13 @@ export const Register = (props) => {
 	    });
 	    let resJson = await res.json();
 	    if (res.status == 200) {
-		setUserName("");
-		setEmail("");
-		//setPassW=("");
-		setMessage(resJson.message);
-		props.onFormSwitch('login');
+			setUserName("");
+			setEmail("");
+			//setPassW=("");
+			setMessage(resJson.message);
+			props.onFormSwitch('login');
 	    } else {
-		setMessage(resJson.message);
+			setMessage(resJson.message);
 	    }
 	} catch (err) {
 	    console.log(err);

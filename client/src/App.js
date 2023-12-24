@@ -13,13 +13,19 @@ function App() {
     const [loggedin, setLoggedIn] = useState(false);
     const [user, setUser] = useState( );
 
+    useEffect(() => {
+	fetch("/auth/loggedin").then(({data}) => {
+	    setLoggedIn(data);
+	})
+    }, [])
+
     const toggleForm = (formName) => {
 	    setCurrentForm(formName);
     }
 
     const logIn = (userIn) => {
 	setUser( userIn );
-	console.log("user set logint");
+	console.log("user set login");
 	console.log(userIn.POV);
 	setLoggedIn(true);
     }

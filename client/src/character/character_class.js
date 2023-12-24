@@ -9,7 +9,7 @@ export class Character {
     }
 
     set picture(picture_name) {
-	this.picture_string = "/assets/locations/" + picture_name;
+	this.picture_string = "/assets/characters/" + picture_name;
 	this.picture_name = picture_name;
     }
 

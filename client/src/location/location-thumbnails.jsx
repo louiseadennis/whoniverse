@@ -36,7 +36,7 @@ export const LocationThumbnails = (props) => {
     
 
     return (
-        <div>
+        <div className="thumbnails">
 	  {items}
         </div>
     );
