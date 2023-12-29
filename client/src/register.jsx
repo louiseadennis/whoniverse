@@ -10,7 +10,7 @@ export const Register = (props) => {
     const handleSubmit = async (e) => {
 	e.preventDefault();
 	try {
-	    let res = await fetch("/register", {
+	    let res = await fetch("/auth/register", {
 		method: "POST",
 		body: JSON.stringify({
 		    username: username,
@@ -21,7 +21,9 @@ export const Register = (props) => {
 		    'Content-type': 'application/json; charset=UTF-8',
 		},
 	    });
+		console.log("before await")
 	    let resJson = await res.json();
+		console.log(resJson)
 	    if (res.status == 200) {
 			setUserName("");
 			setEmail("");

@@ -6,8 +6,11 @@ export const Login = (props) => {
     const [username, setUserName] = useState('');
     const [pass, setPass] = useState('');
     const [message, setMessage] = useState('');
+    console.log("login page");
+    console.log(localStorage);
 
     const handleSubmit = async (e) => {
+	console.log("calling log submit");
 		e.preventDefault();
 		try {
 			let res = await fetch("/auth", {
@@ -22,20 +25,22 @@ export const Login = (props) => {
 			});
 			let resJson = await res.json();
 			if (res.status === 200) {
-				setUserName("");
-				setPass("");
-				setMessage(resJson.message);
-				console.log("calling log in");
-				let user = new User(resJson.username);
-				user.POV = resJson.pov_location;
-				console.log("setting user");
-				props.login(user);
+			    setUserName("");
+			    setPass("");
+			    setMessage(resJson.message);
+			    console.log("calling log in");
+			    let user = new User(resJson.username);
+			    user.POV = resJson.pov_location;
+			    console.log("setting user");
+			    props.login(user);
 			} else {
-				setMessage(resJson.message);
+			    setMessage(resJson.message);
 			}
 		} catch (err) {
 			console.log(err);
 		}
+	console.log(localStorage);
+	console.log("leaving handle submit");
     }
     
     return (

@@ -7,8 +7,10 @@ import { Develop } from "./develop";
 export const Home = (props) => {
     const [currentPage, setCurrentPage] = useState('current_page');
     const [key, setKey] = useState('0');
+    console.log("home page");
     
     const changePage = (pageName, key='0') => {
+	console.log("calling change page");
 	    setKey(key);
 	    console.log(key);
 	    setCurrentPage(pageName);
