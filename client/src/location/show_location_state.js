@@ -15,11 +15,11 @@ export const ShowLocationState = (props) => {
 	    console.log("id not zero");
 	    const fetchData = async () => {
 		try {
-		    let res = await fetch("/get_location_state", {
+		    let res = await fetch("/", {
 			method: "POST",
-		body: JSON.stringify({
-		    id: id,
-		}),
+			body: JSON.stringify({
+			    id: id,
+			}),
 		headers: {
 		    'Content-type': 'application/json; charset=UTF-8',
 		},

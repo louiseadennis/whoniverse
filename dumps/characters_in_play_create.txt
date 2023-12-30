@@ -1,0 +1,14 @@
+CREATE TABLE `characters_in_play` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT Null,
+  `char_id` int NOT NULL,
+  `combat` tinyint NOT NULL,
+  `tech` tinyint NOT NULL,
+  `observation` tinyint NOT NULL,
+  `empathy` tinyint NOT NULL,
+  `willpower` tinyint NOT NULL,
+  `running` tinyint NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+
+

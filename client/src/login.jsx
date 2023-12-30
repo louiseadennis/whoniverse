@@ -30,7 +30,7 @@ export const Login = (props) => {
 			    setMessage(resJson.message);
 			    console.log("calling log in");
 			    let user = new User(resJson.username);
-			    user.POV = resJson.pov_location;
+			    user.POV = resJson.pov;
 			    console.log("setting user");
 			    props.login(user);
 			} else {
