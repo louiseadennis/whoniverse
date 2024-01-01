@@ -3,13 +3,15 @@ import HTMLReactParser from 'html-react-parser';
 import { Location } from "./location_class";
 
 export const ShowLocation = (props) => {
+    console.log("entered show location");
+    console.log(props.id);
     const [location, setLocation] = useState(new Location("none") );
     const id = props.id;
 
     useEffect(() => {
 	const fetchData = async () => {
 	try {
-	    let res = await fetch("/get_location", {
+	    let res = await fetch("/locations", {
 		method: "POST",
 		body: JSON.stringify({
 		    id: id,
@@ -23,7 +25,8 @@ export const ShowLocation = (props) => {
 		console.log(resJson);
 		let location = new Location(resJson.location_name);
 		location.description = resJson.description;
-		location.picture = resJson.image_name;
+		console.log(resJson.picture);
+		location.picture = resJson.picture;
 		setLocation(location);
 	    }
 	} catch (err) {

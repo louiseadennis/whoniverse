@@ -21,7 +21,7 @@ export const Home = (props) => {
 	  <NavBar onPageChange={changePage} handleLogoutClick={props.handleLogoutClick}/>
 	  {
         {
-          'location': <Location user={props.user} pov={props.pov} />,
+          'location': <Location user={props.user}  />,
           'profile': <Profile user={props.user} />,
           'develop': <Develop changePage = {changePage}/>
         }[currentPage] || < Location  user={props.user} pov={props.pov} />

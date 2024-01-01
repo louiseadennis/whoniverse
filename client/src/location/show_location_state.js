@@ -4,18 +4,20 @@ import { ShowLocation } from "./show_location";
 export const ShowLocationState = (props) => {
     console.log("entered show location state");
     console.log(props.id);
-    const [location, setLocation] = useState('0');
+    // const [location, setLocation] = useState('0');
     const [loading, setLoading ] = useState('true');
     const id = props.id;
 
+    // Not sure why I'm doing this...
     useEffect(() => {
 	console.log("lsid:");
 	console.log(id);
 	if (id != 0) {
 	    console.log("id not zero");
+	    console.log(id);
 	    const fetchData = async () => {
 		try {
-		    let res = await fetch("/", {
+		    let res = await fetch("/locations", {
 			method: "POST",
 			body: JSON.stringify({
 			    id: id,
@@ -29,7 +31,7 @@ export const ShowLocationState = (props) => {
 		console.log("got location state");
 		console.log(resJson);
 		let location_id = resJson.location_id;
-		setLocation(location_id);
+		// setLocation(location_id);
 		setLoading(false);
 	    }
 	} catch (err) {
@@ -44,7 +46,7 @@ export const ShowLocationState = (props) => {
 
     return (
 	<div>
-	    {loading ? <p>Please Reload</p> : <ShowLocation id={location}/>}
+	    {loading ? <p>Please Reload</p> : <ShowLocation id={id}/>}
 	</div>
     );
 }
