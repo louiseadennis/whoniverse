@@ -42,7 +42,8 @@ const Location = require("../models/location.js");
 
 // Find a single Location by Id
 const findOne = (req, res) => {
-  Location.findById(req.body.id, (err, data) => {
+    Location.findById(req.body.id, (err, data) => {
+	console.log("entered location controller find one");
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({

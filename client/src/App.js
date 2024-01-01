@@ -55,7 +55,7 @@ function App() {
     console.log(localStorage);
     return (
 	    <div className="App">
-	    {loggedin ? <Home handleLogoutClick={handleLogoutClick} user={user} pov={user.POV}/> :
+	    {loggedin ? <Home handleLogoutClick={handleLogoutClick} user={user} pov={user.getPOV()}/> :
 	     currentForm === "login"? <Login onFormSwitch={toggleForm} login={logIn} /> : <Register onFormSwitch={toggleForm} />}
 	    </div>
     );

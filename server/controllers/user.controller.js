@@ -92,13 +92,14 @@ const auth = (req, res) => {
     });
 };
 
-// Find a single User by Id
+// Find a single User by username
 const findOne = (req, res) => {
-  User.findById(req.params.id, (err, data) => {
+    User.findByUsername(req.body.username, (err, data) => {
+	console.log("entereind user controller findOne");
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
-          message: `Not found User with id ${req.params.id}.`
+          message: `Not found User with id ${req.body.username}.`
         });
       } else {
         res.status(500).send({
@@ -109,4 +110,4 @@ const findOne = (req, res) => {
   });
 };
 
-module.exports = { auth, register };
+module.exports = { auth, register, findOne };

@@ -41,7 +41,8 @@ User.create = (newUser, result) => {
 };
 
 User.findByUsername = (username, result) => {
-  sql.query(`SELECT * FROM accounts WHERE username = ${username}`, (err, res) => {
+    console.log("entered find by username");
+    sql.query(`SELECT * FROM accounts WHERE username = '${username}'`, function(err, res, fields) {
     if (err) {
       console.log("error: ", err);
       result(err, null);

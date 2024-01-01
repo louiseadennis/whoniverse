@@ -11,6 +11,39 @@ export class User {
 	this.state = {username: username};
     }
 
+    async getPOV() {
+	if (! this.state.POV) {
+	    console.log("no pov!");
+	if (this.state.username != "no_user_here_at_all") {
+	    try {
+                        let res = await fetch("/auth/get_user", {
+                        method: "POST",
+                        body: JSON.stringify({
+                                username: this.state.username,
+                        }),
+                        headers: {
+                                'Content-type': 'application/json; charset=UTF-8',
+                        },
+                        });
+                        let resJson = await res.json();
+                        if (res.status === 200) {
+                            console.log("calling get user");
+                            this.POV = resJson.pov;
+                            console.log("setting user pov");
+                        } else {
+                            console.log("error getting user");
+                        }
+	    } catch (err) {
+		console.log(err);
+	    }
+	    
+	}
+	} else {
+	    return this.state.POV;
+	}
+
+    }
+
     get username() {
 	return this.username;
     }
