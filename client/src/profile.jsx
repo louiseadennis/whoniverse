@@ -1,7 +1,7 @@
 export const Profile = (props) => {
     const user = props.user;
     const username = user.state.username;
-    const pov = user.POV;
+    const pov = user.state.POV;
     
     return (
 		<div className="Page">

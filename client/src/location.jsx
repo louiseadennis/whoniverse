@@ -5,16 +5,32 @@ export class Location extends Component {
 
 	constructor(props) {
 	    super(props);
+		this.state = {loading : true}
+		console.log("location constructor")
 	    this.user = props.user;
-	    this.pov = this.user.POV;
-	    console.log(this.pov);
+	}
+
+	componentDidMount() {
+		this.user.getPOV().then((res) => {
+			console.log(res);
+			this.pov = res;
+			console.log("setting pov");
+			console.log(this.pov);
+			this.setState({loading: false});
+			}
+		);
 	}
 
 	render() {
+		console.log("are we loading?");
+		console.log(this.state.loading);
 		return (
 		<div className="Page">
 		<h2>Location</h2>
-		<ShowLocationState id={this.pov}/>
+		{ this.state.loading ? 
+			<span>Loading ...</span> :
+			<ShowLocationState id={this.pov}/>
+		}
 		</div>
 		)
 	}	

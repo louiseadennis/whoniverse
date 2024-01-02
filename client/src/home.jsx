@@ -24,7 +24,7 @@ export const Home = (props) => {
           'location': <Location user={props.user}  />,
           'profile': <Profile user={props.user} />,
           'develop': <Develop changePage = {changePage}/>
-        }[currentPage] || < Location  user={props.user} pov={props.pov} />
+        }[currentPage] || < Location  user={props.user} />
       }
 	</div>
     )

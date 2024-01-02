@@ -28,8 +28,9 @@ export class User {
                         let resJson = await res.json();
                         if (res.status === 200) {
                             console.log("calling get user");
-                            this.POV = resJson.pov;
+                            this.state.POV = resJson.pov;
                             console.log("setting user pov");
+			    return this.state.POV;
                         } else {
                             console.log("error getting user");
                         }
@@ -39,6 +40,8 @@ export class User {
 	    
 	}
 	} else {
+	    console.log("returning");
+	    console.log(this.state.POV);
 	    return this.state.POV;
 	}
 
