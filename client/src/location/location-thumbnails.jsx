@@ -4,7 +4,7 @@ export const LocationThumbnails = (props) => {
     const [locations, setLocations] = useState([]);
 
     const picture_string = (string) => {
-	return "/assets/locations/" + string;
+		return "/assets/locations/" + string;
     }
     
     const items = locations.map((d) => 
@@ -13,7 +13,7 @@ export const LocationThumbnails = (props) => {
     useEffect(() => {
 	const fetchData = async () => {
 	try {
-	    let res = await fetch("/get_location_thumbnails", {
+	    let res = await fetch("/locations/get_location_thumbnails", {
 		method: "POST",
 		headers: {
 		    'Content-type': 'application/json; charset=UTF-8',
@@ -21,8 +21,8 @@ export const LocationThumbnails = (props) => {
 	    });
 	    let resJson = await res.json();
 	    if (res.status === 200) {
-		console.log(resJson);
-		setLocations(resJson);
+			console.log(resJson);
+			setLocations(resJson);
 	    }
 	} catch (err) {
 	    console.log(err);

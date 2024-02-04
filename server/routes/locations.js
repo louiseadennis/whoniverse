@@ -14,6 +14,6 @@ router.post('/', locations.findOne);
 
 
 // http://localhost:3001/get_location_thumbnails
-//router.post('/thumbnails', locations.findAll);
+router.post('/get_location_thumbnails', locations.findAll);
 
 module.exports = router;

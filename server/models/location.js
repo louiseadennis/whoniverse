@@ -40,17 +40,24 @@ Location.findById = (id, result) => {
 };
 
 Location.getAll = (result) => {
-  let query = "SELECT * FROM locations";
+    // let query = "SELECT * FROM locations";
+    console.log("entered Location get all");
 
-  sql.query(query, (err, res) => {
+    sql.query(`SELECT * FROM locations`, function(err, res, fields)  {
     if (err) {
       console.log("error: ", err);
-      result(null, err);
+	result(err, null);
       return;
     }
 
-    console.log("locations: ", res);
-    result(null, res);
+	if (res.length) {
+	    console.log("locations: ", res);
+	    result(null, res);
+	    return;
+	}
+
+	console.log("no locations");
+	result({kind: "no locations"}, null);
   });
 };
 

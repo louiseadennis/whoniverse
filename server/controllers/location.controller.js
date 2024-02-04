@@ -28,23 +28,26 @@ const Location = require("../models/location.js");
 //};
 
 // Retrieve all Locations from the database (with condition).
-// const findAll = (req, res) => {
+const findAll = (req, res) => {
 
-//    Location.getAll((err, data) => {
-//    if (err)
-//      res.status(500).send({
-//        message:
-//          err.message || "Some error occurred while retrieving locations."
- //     });
- //   else res.send(data);
-//  });
-// };
+    Location.getAll((err, data) => {
+	console.log("entered location controller find all");
+	if (err) {
+	    console.log("location get all error");
+	    res.status(500).send({
+		message:
+		err.message || "Some error occurred while retrieving locations."
+	    });
+	}
+    else res.send(data);
+    });
+};
 
 // Find a single Location by Id
 const findOne = (req, res) => {
     Location.findById(req.body.id, (err, data) => {
 	console.log("entered location controller find one");
-    if (err) {
+	if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
           message: `Not found Location with id ${req.params.id}.`
@@ -104,6 +107,6 @@ const findOne = (req, res) => {
 //  });
 //};
 
-module.exports = { findOne };
+module.exports = { findOne, findAll };
 
 
