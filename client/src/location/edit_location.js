@@ -11,7 +11,7 @@ export const EditLocation = (props) => {
     useEffect(() => {
         const fetchData = async () => {
         try {
-            let res = await fetch("/get_location", {
+            let res = await fetch("/locations", {
                 method: "POST",
                 body: JSON.stringify({
                     id: id,
@@ -23,9 +23,9 @@ export const EditLocation = (props) => {
             let resJson = await res.json();
             if (res.status === 200) {
                 console.log(resJson);
-		setLocationName(resJson.location_name);
+		setLocationName(resJson.name);
                 setDescription(resJson.description);
-                setImageName(resJson.image_name);
+                setImageName(resJson.picture);
             }
         } catch (err) {
             console.log(err);
@@ -41,13 +41,13 @@ export const EditLocation = (props) => {
 	e.preventDefault();
 	try {
 	    console.log(location_name);
-	    let res = await fetch("/edit_location", {
+	    let res = await fetch("/locations/edit_location", {
 		method: "POST",
 		body: JSON.stringify({
 		    location_id: id,
-		    location_name: location_name,
+		    name: location_name,
 		    description: description,
-		    image_name: image_name,
+		    picture: image_name,
 		}),
 		headers: {
 		    'Content-type': 'application/json; charset=UTF-8',

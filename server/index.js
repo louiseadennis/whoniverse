@@ -24,6 +24,7 @@ app.get("/", (req, res) => {
 
 app.use('/auth', require('./routes/auth'));
 app.use('/locations', require('./routes/locations'));
+app.use('/characters', require('./routes/characters'));
 
 
 // Finally, our Node.js server needs to listen on a port, so for testing purposes, we can use port 3001.

@@ -62,24 +62,28 @@ Location.getAll = (result) => {
 };
 
 Location.updateById = (id, location, result) => {
+    console.log("updating location");
+    console.log(location);
+    console.log(id);
   sql.query(
     "UPDATE locations SET name = ?, description = ?, picture = ? WHERE id = ?",
     [location.name, location.description, location.picture, id],
-    (err, res) => {
+      function(err, res, fields) {
       if (err) {
         console.log("error: ", err);
-        result(null, err);
+          result(err, null);
         return;
       }
 
-      if (res.affectedRows == 0) {
+	if (res.affectedRows == 0) {
+	    console.log("no affected rows");
         // not found Location with the id
         result({ kind: "not_found" }, null);
         return;
       }
 
       console.log("updated location: ", { id: id, ...location });
-      result(null, { id: id, ...location });
+	result( { id: id, ...location }, null);
     }
   );
 };

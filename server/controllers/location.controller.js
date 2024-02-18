@@ -62,33 +62,32 @@ const findOne = (req, res) => {
 };
 
 // Update a Location identified by the id in the request
-//const update = (req, res) => {
+const update = (req, res) => {
   // Validate Request
-//  if (!req.body) {
-//    res.status(400).send({
-//      message: "Content can not be empty!"
-//    });
-//  }
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }
 
- // console.log(req.body);
+ console.log(req.body);
 
-//  Location.updateById(
-//    req.params.id,
- //   new Location(req.body),
-//    (err, data) => {
-//      if (err) {
-//        if (err.kind === "not_found") {
-//          res.status(404).send({
-//            message: `Not found Location with id ${req.params.id}.`
-//          });
- //       } else {
-//          res.status(500).send({
-//            message: "Error updating Location with id " + req.params.id
-//          });
-//        }
- //     } else res.send(data);
-//    });
-//};
+ Location.updateById(req.body.location_id,
+   new Location(req.body),
+    (err, data) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          res.status(404).send({
+            message: `Not found Location with id ${req.body.id}.`
+          });
+       } else {
+          res.status(500).send({
+            message: "Error updating Location with id " + req.body.id
+          });
+        }
+     } else res.send(data);
+    });
+};
 
 // Delete a Location with the specified id in the request
 //const delete = (req, res) => {
@@ -107,6 +106,6 @@ const findOne = (req, res) => {
 //  });
 //};
 
-module.exports = { findOne, findAll };
+module.exports = { findOne, findAll, update };
 
 

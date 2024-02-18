@@ -7,7 +7,7 @@ var router = require("express").Router();
 //router.post('/add', locations.create);
 
 // http://localhost:3001/edit_location
-//router.post('/edit:id', locations.update);
+router.post('/edit_location', locations.update);
 
 // http://localhost:3001/get_location
 router.post('/', locations.findOne);

@@ -8,7 +8,7 @@ export const LocationThumbnails = (props) => {
     }
     
     const items = locations.map((d) => 
-	<div><button class="image-button" onClick={()=>props.revealForm(props.revealed == d.id ? 0 : d.id)}><p><img src={picture_string(d.picture)} width="100"/></p>: {d.name}</button></div>);
+	<div><button class="image-button" onClick={()=>props.revealForm(props.revealed === d.id ? 0 : d.id)}><p><img src={picture_string(d.picture)} width="100"/></p> {d.id}: {d.name}</button></div>);
 
     useEffect(() => {
 	const fetchData = async () => {

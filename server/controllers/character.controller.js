@@ -1,4 +1,5 @@
 const Character = require("../models/character.js");
+const Character_Icon = require("../models/character_icon.js");
 
 // Create and Save a new Location
 exports.create = (req, res) => {
@@ -33,21 +34,34 @@ exports.create = (req, res) => {
   });
 };
 
-// Retrieve all Locations from the database (with condition).
-exports.findAll = (req, res) => {
-
+// Retrieve all Characters from the database (with condition).
+const findAll = (req, res) => {
+    console.log("calling find all");
     Character.getAll((err, data) => {
     if (err)
       res.status(500).send({
         message:
-          err.message || "Some error occurred while retrieving locations."
+          err.message || "Some error occurred while retrieving characters."
       });
     else res.send(data);
   });
 };
 
+
+const findAllDefault = (req, res) => {
+    console.log("calling find all");
+    Character.getAllDefault((err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving characters."
+      });
+    else res.send(data);
+    });
+};
+
 // Find a single Location by Id
-exports.findOne = (req, res) => {
+const findOne = (req, res) => {
   Character.findById(req.params.id, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
@@ -111,3 +125,4 @@ exports.delete = (req, res) => {
 };
 
 
+module.exports = { findOne, findAll, findAllDefault }

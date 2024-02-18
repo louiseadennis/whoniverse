@@ -4,16 +4,18 @@ export const CharacterThumbnails = (props) => {
     const [characters, setCharacters] = useState([]);
 
     const picture_string = (string) => {
-	return "/assets/characters/" + string + ".png";
+		console.log(string);
+	return "/assets/characters/" + string;
     }
     
     const items = characters.map((d) => 
-	<div><button class="image-button" onClick={()=>props.revealForm(props.revealed == d.char_id ? 0 : d.char_id)}><p><img src={picture_string(d.picture)} width="100"/></p>: {d.name}</button></div>);
+	<div><button class="image-button" onClick={()=>props.revealForm(props.revealed === d.char_id ? 0 : d.char_id)}><p><img src={picture_string(d.picture)} width="100"/></p>{d.char_id}: {d.name}</button></div>);
 
     useEffect(() => {
 	const fetchData = async () => {
 	try {
-	    let res = await fetch("/get_character_thumbnails", {
+		console.log("trying fetch get_character_thumnails");
+	    let res = await fetch("/characters/get_character_thumbnails", {
 		method: "POST",
 		headers: {
 		    'Content-type': 'application/json; charset=UTF-8',

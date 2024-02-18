@@ -1,13 +1,14 @@
-const characters = required("../controllers/character.controller.js");
+const characters = require("../controllers/character.controller.js");
 
 var router = require("express").Router();
 
-app.post('/add', characters.create);
+// router.post('/add', characters.create);
 
-app.post('/edit:id', characters.update);
+// router.post('/edit:id', characters.update);
 
-app.post('/:id', characters.findOne);
+router.post('/', characters.findOne);
 
-app.post('/thumbnails', characters.findAll);
+router.post('/get_character_thumbnails', characters.findAllDefault);
 
+module.exports = router;
 
