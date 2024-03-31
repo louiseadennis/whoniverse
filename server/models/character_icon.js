@@ -8,7 +8,7 @@ const Character_Icon = function(character_icon) {
 }
 
 Character_Icon.create = (newIcon, result) => {
-    sql.query("INSERT INTO character_icons (picture, char_id, default) VALUES (?, ?, ?)", (newIcon.picture, newIcon.char_id, newIcon.def), function(err, res, fields)  {
+    sql.query("INSERT INTO character_icons (picture, char_id, character_icons.default) VALUES (?, ?, ?)", (newIcon.picture, newIcon.char_id, newIcon.def), function(err, res, fields)  {
     if (err) {
       console.log("error: ", err);
       result(err, null);

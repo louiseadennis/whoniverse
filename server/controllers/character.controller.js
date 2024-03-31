@@ -62,15 +62,32 @@ const findAllDefault = (req, res) => {
 
 // Find a single Location by Id
 const findOne = (req, res) => {
-  Character.findById(req.params.id, (err, data) => {
+  Character.findById(req.body.id, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
-          message: `Not found Character with id ${req.params.id}.`
+          message: `Not found Character with id ${req.body.id}.`
         });
       } else {
         res.status(500).send({
-          message: "Error retrieving Character with id " + req.params.id
+          message: "Error retrieving Character with id " + req.body.id
+        });
+      }
+    } else res.send(data);
+  });
+};
+
+// Find a single Location by Id
+const findOneWithIcons = (req, res) => {
+  Character.findByIdWithIcons(req.body.id, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found Character with id ${req.body.id}.`
+        });
+      } else {
+        res.status(500).send({
+          message: "Error retrieving Character with id " + req.body.id
         });
       }
     } else res.send(data);
@@ -78,7 +95,7 @@ const findOne = (req, res) => {
 };
 
 // Update a Location identified by the id in the request
-exports.update = (req, res) => {
+const update = (req, res) => {
   // Validate Request
   if (!req.body) {
     res.status(400).send({
@@ -89,17 +106,17 @@ exports.update = (req, res) => {
   console.log(req.body);
 
   Character.updateById(
-    req.params.id,
+    req.body.character_id,
     new Character(req.body),
     (err, data) => {
       if (err) {
         if (err.kind === "not_found") {
           res.status(404).send({
-            message: `Not found Character with id ${req.params.id}.`
+            message: `Not found Character with id ${req.body.character_id}.`
           });
         } else {
           res.status(500).send({
-            message: "Error updating Character with id " + req.params.id
+            message: "Error updating Character with id " + req.body.character_id
           });
         }
       } else res.send(data);
@@ -125,4 +142,4 @@ exports.delete = (req, res) => {
 };
 
 
-module.exports = { findOne, findAll, findAllDefault }
+module.exports = { findOne, findAll, findAllDefault, update }

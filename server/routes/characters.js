@@ -4,7 +4,7 @@ var router = require("express").Router();
 
 // router.post('/add', characters.create);
 
-// router.post('/edit:id', characters.update);
+router.post('/edit_character', characters.update);
 
 router.post('/', characters.findOne);
 

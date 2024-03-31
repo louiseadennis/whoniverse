@@ -6,6 +6,7 @@ import { AddLocation } from "./location/add_location";
 import { ShowLocation } from "./location/show_location";
 import { ShowCharacter } from "./character/show_character";
 import { EditLocation } from "./location/edit_location";
+import { EditCharacter } from "./character/edit_character";
 
 function DevelopItem({title, children, setActiveItem, activeItem, description}) {
 	const expanded = activeItem;
@@ -68,7 +69,7 @@ export const Develop = (props) => {
 	const [showShowLocation, setShowShowLocation] = useState(0);
     const [showEditLocation, setShowEditLocation] = useState(0);
 
-    	const [charactersActive, setCharactersActive] = useState(0);
+    const [charactersActive, setCharactersActive] = useState(0);
 	const [showCharacterActive, setShowCharacterActive] = useState(0);
 	const [editCharacterActive, setEditCharacterActive] = useState(0);
 	const [showAddCharacter, setShowAddCharacter] = useState(0);
@@ -93,8 +94,8 @@ export const Develop = (props) => {
 			  ><ul>
 			    <LocationThumbnails revealForm = {setShowShowLocation} revealed={showShowLocation}/>
                           </ul>
-                        </SubDevelopItem></li>
-					{showShowLocation ? <ShowLocation id={showShowLocation} /> : <p></p>}
+        			{showShowLocation ? <ShowLocation id={showShowLocation} /> : <p></p>}
+					</SubDevelopItem></li>
 			<li><SubDevelopItem
 			  setActiveItem={setEditLocationActive}
 			  activeItem={editLocationActive}
@@ -102,8 +103,9 @@ export const Develop = (props) => {
 			  ><ul>
 			    <LocationThumbnails revealForm = {setShowEditLocation} revealed={showEditLocation} />
                           </ul>
-                         </SubDevelopItem></li>
-						 {showEditLocation ? <EditLocation id={showEditLocation} /> : <p></p>}
+             			 {showEditLocation ? <EditLocation id={showEditLocation} /> : <p></p>}
+						  </SubDevelopItem></li>
+			
 		</ul>
 	  </DevelopItem>
 	  <DevelopItem
@@ -112,27 +114,31 @@ export const Develop = (props) => {
 	    activeItem={charactersActive}
 	    description="Add and Edit Characters"
 	    ><ul>
-	                <li><button onClick={() => {showAddCharacter ? setShowAddCharacter(0): setShowAddCharacter(1)}}>+Add Character</button></li>
+	            <li><button onClick={() => {showAddCharacter ? setShowAddCharacter(0): setShowAddCharacter(1)}}>+Add Character</button></li>
 					{showAddCharacter? <p>Nothing Yet</p> : <p></p>}
-			<li><SubDevelopItem
-			  setActiveItem={setShowCharacterActive}
-			  activeItem={showCharacterActive}
-			  description="Show Characters"
-			      ><ul>
-			      <CharacterThumbnails revealForm = {setShowShowCharacter} revealed={showShowCharacter}/>
-                          </ul>
-                        </SubDevelopItem></li>
-					{showShowCharacter ? <ShowCharacter id={showShowCharacter} /> : <p></p>}
-			<li><SubDevelopItem
-			  setActiveItem={setEditCharacterActive}
-			  activeItem={editCharacterActive}
-			  description="Edit Characters"
-			  ><ul>
-			      <li><p>Nothing Yet</p></li>
-                          </ul>
-                         </SubDevelopItem></li>
-			{showEditCharacter ? <p>Nothing Yet</p> : <p></p>}
-			</ul>
+				<li><SubDevelopItem
+			  		setActiveItem={setShowCharacterActive}
+			  		activeItem={showCharacterActive}
+			  		description="Show Characters">
+					<ul>
+			      		<CharacterThumbnails revealForm = {setShowShowCharacter} revealed={showShowCharacter}/>
+						 	{showShowCharacter ? <ShowCharacter id={showShowCharacter} /> : <p></p>}
+						
+                    </ul>
+                    </SubDevelopItem>
+					
+				</li>
+				<li><SubDevelopItem
+			  		setActiveItem={setEditCharacterActive}
+			  		activeItem={editCharacterActive}
+			  		description="Edit Characters">
+					<ul>
+			      		<CharacterThumbnails revealForm = {setShowEditCharacter} revealed={showEditCharacter}/>
+  							{showEditCharacter ? <EditCharacter id={showEditCharacter} /> : <p></p>}
+					</ul>
+					</SubDevelopItem>
+				</li>
+		</ul>
 	  </DevelopItem>
 	</div>
     )

@@ -27,7 +27,7 @@ Character.create = (newCharacter, result) => {
 };
 
 Character.findById = (id, result) => {
-  sql.query(`SELECT * FROM characters WHERE id = ${id}`, (err, res) => {
+  sql.query(`SELECT * FROM characters WHERE char_id = ${id}`, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -38,6 +38,25 @@ Character.findById = (id, result) => {
       console.log("found character: ", res[0]);
       result(null, res[0]);
       return;
+    }
+
+    // not found Character with the id
+    result({ kind: "not_found" }, null);
+  });
+};
+
+Character.findByIdWithIcons = (id, result) => {
+  sql.query(`SELECT * FROM characters LEFT JOIN character_icons ON characters.char_id = character_icons.char_id WHERE characters.char_id = ${id}`, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+
+    if (res.length) {
+      console.log("found character: ", res);
+      result(null, res);
+	return;
     }
 
     // not found Character with the id
@@ -100,7 +119,7 @@ Character.getAllDefault = (result) => {
 //};
 
 Character.remove = (id, result) => {
-  sql.query("DELETE FROM characters WHERE id = ?", id, (err, res) => {
+  sql.query("DELETE FROM characters WHERE char_id = ?", id, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);

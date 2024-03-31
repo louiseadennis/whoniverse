@@ -1,7 +1,19 @@
 export class Character {
 
-    constructor(name) {
-	this.state = {name: name};
+//    constructor(name) {
+//	this.state = {name: name};
+//    }
+
+    constructor(resJson) {
+	this.state = {name: resJson.name};
+	this.gender = resJson.gender;
+	this.combat = resJson.combat;
+	this.tech = resJson.tech;
+	this.observation = resJson.observation;
+	this.empathy = resJson.empathy;
+	this.willpower = resJson.willpower;
+	this.running = resJson.running;
+	this.doctor = resJson.doctor;
     }
 
     get name() {

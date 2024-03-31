@@ -8,8 +8,9 @@ export const ShowCharacter = (props) => {
 
     useEffect(() => {
 	const fetchData = async () => {
-	try {
-	    let res = await fetch("/get_character", {
+	    try {
+		console.log(id);
+	    let res = await fetch("/characters", {
 		method: "POST",
 		body: JSON.stringify({
 		    id: id,
@@ -23,7 +24,7 @@ export const ShowCharacter = (props) => {
 		console.log(resJson);
 		console.log(resJson.name);
 		console.log(resJson.char_id);
-		let character = new Character(resJson.name);
+		let character = new Character(resJson);
 		setCharacter(character);
 	    }
 	} catch (err) {
@@ -38,7 +39,19 @@ export const ShowCharacter = (props) => {
     return (
          <div>
 	    <div>
-	    <h2>{character.state.name}</h2>
+	    <h2>{character.state.name} {character.picture}</h2>
+	    </div>
+	    <div>
+	    <p>Gender:{character.gender}</p>
+	    <p>Doctor:{character.doctor}</p>
+	    <dl>
+	    <dt>Combat:</dt><dd>{character.combat}</dd>
+	    <dt>Tech:</dt><dd>{character.tech}</dd>
+	    <dt>Observation:</dt><dd>{character.observation}</dd>
+	    <dt>Empathy:</dt><dd>{character.empathy}</dd>
+	    <dt>Willpower:</dt><dd>{character.willpower}</dd>
+	    <dt>Running:</dt><dd>{character.running}</dd>
+	    </dl>
 	    </div>
         </div>
     );
