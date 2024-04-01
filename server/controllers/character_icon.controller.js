@@ -27,20 +27,33 @@ exports.create = (req, res) => {
   });
 };
 
-// Retrieve all Locations from the database (with condition).
+// Retrieve all Icons from the database.
 const findAll = (req, res) => {
     console.log("calling find all");
     Character_Icon.getAll((err, data) => {
     if (err)
       res.status(500).send({
         message:
-          err.message || "Some error occurred while retrieving locations."
+          err.message || "Some error occurred while retrieving icons."
       });
     else res.send(data);
   });
 };
 
-// Find a single Location by Id
+// Retrieve all Icons for a characterfrom the database.
+const findAll = (req, res) => {
+    console.log("calling find all");
+    Character_Icon.getAllChar(req.params.char_id, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving icons."
+      });
+    else res.send(data);
+  });
+};
+
+// Find a single Icon by Id
 const findOne = (req, res) => {
   Character_Icon.findById(req.params.id, (err, data) => {
     if (err) {
@@ -59,4 +72,4 @@ const findOne = (req, res) => {
 
 
 
-module.exports = { findOne, findAll }
+module.exports = { findOne, findAll, findAllChar }

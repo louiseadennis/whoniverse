@@ -14,11 +14,23 @@ export class Character {
 	this.willpower = resJson.willpower;
 	this.running = resJson.running;
 	this.doctor = resJson.doctor;
+	this.icons = [];
+	for (var i in resJson.icons) {
+	    this.icons.push([resJson.icons[i].default, resJson.icons[i].picture]);
+	}
     }
 
     get name() {
 	return this.state.name;
     }
+
+/*    get icons() {
+	return this.icons_list;
+    }
+
+    set icons(icons_in) {
+	this.icons_list = icons_in;
+    } */
 
     set picture(picture_name) {
 	this.picture_string = "/assets/characters/" + picture_name;

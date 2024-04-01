@@ -79,7 +79,7 @@ const findOne = (req, res) => {
 
 // Find a single Location by Id
 const findOneWithIcons = (req, res) => {
-  Character.findByIdWithIcons(req.body.id, (err, data) => {
+  Character.findById(req.body.id, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
@@ -90,8 +90,33 @@ const findOneWithIcons = (req, res) => {
           message: "Error retrieving Character with id " + req.body.id
         });
       }
-    } else res.send(data);
+    } else {
+	character_data = data;
+    }
   });
+
+   Character_Icon.getAllChar(req.body.id, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found Icon with Character id ${req.body.id}.`
+        });
+      } else {
+        res.status(500).send({
+          message: "Error retrieving Icon with character id " + req.body.id
+        });
+      }
+    } else {
+	icon_data = data;
+    console.log("icon_data");
+    console.log(icon_data);
+    character_data.icons = icon_data;
+    console.log("character data");
+    console.log(character_data);
+    res.send(character_data);
+    }
+   });
+
 };
 
 // Update a Location identified by the id in the request
@@ -142,4 +167,4 @@ exports.delete = (req, res) => {
 };
 
 
-module.exports = { findOne, findAll, findAllDefault, update }
+module.exports = { findOne, findAll, findAllDefault, update, findOneWithIcons }

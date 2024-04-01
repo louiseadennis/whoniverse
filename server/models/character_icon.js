@@ -40,6 +40,25 @@ Character_Icon.findById = (id, result) => {
   });
 };
 
+Character_Icon.getAllChar = (char_id, result) => {
+  sql.query(`SELECT * FROM character_icons WHERE char_id = ${char_id}`, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+
+    if (res.length) {
+      console.log("found character icons: ", res);
+      result(null, res);
+      return;
+    }
+
+    // not found Icon with the char id
+    result({ kind: "not_found" }, null);
+  });
+};
+
 Character_Icon.getAll = (result) => {
   let query = "SELECT * FROM character_icons";
 

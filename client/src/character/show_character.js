@@ -34,7 +34,14 @@ export const ShowCharacter = (props) => {
 
 	fetchData()
 	    .catch(console.error);
-    }, [])
+    }, [id])
+
+    const picture_string = (string) => {
+                console.log(string);
+        return "/assets/characters/" + string;
+    }
+
+    const icon_pictures = (icon_list) => icon_list.map((d) => <div className="padding:20px; border-radius:10px; background-color:white;"><p><img src={picture_string(d[1])} width="100"/></p>{d[0] ? "default" : ""}</div>);
 
     return (
          <div>
@@ -51,6 +58,7 @@ export const ShowCharacter = (props) => {
 	    <dt>Empathy:</dt><dd>{character.empathy}</dd>
 	    <dt>Willpower:</dt><dd>{character.willpower}</dd>
 	    <dt>Running:</dt><dd>{character.running}</dd>
+	    <dt>Icons:</dt><dd><div className="thumbnails">{icon_pictures(character.icons)}</div></dd>
 	    </dl>
 	    </div>
         </div>
