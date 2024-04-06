@@ -81,7 +81,7 @@ Character.getAll = (result) => {
 
 
 Character.getAllDefault = (result) => {
-  let query = "SELECT * FROM characters LEFT JOIN character_icons ON characters.char_id = character_icons.char_id and  character_icons.default = 1;";
+  let query = "SELECT characters.char_id, characters.name, character_icons.char_icon_id, character_icons.picture FROM characters LEFT JOIN character_icons ON characters.char_id = character_icons.char_id and  character_icons.default = 1;"
 
     sql.query(query, function(err, res, fields) {
     if (err) {
