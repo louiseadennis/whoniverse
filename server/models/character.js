@@ -95,28 +95,28 @@ Character.getAllDefault = (result) => {
   });
 };
 
-// Character.updateById = (id, character, result) => {
-//  sql.query(
-//    "UPDATE characters SET name = ?, gender = ?, combat = ?, tech = ?, observation = ?, empathy = ?, willpower = ?, running = ?, doctor = ?  WHERE id = ?",
-//      [character.name, character.gender, character.combat, character.tech, character.observation, character.empathy, character.willpower, character.running, character.doctor id],
-//    (err, res) => {
-//      if (err) {
-//        console.log("error: ", err);
-//        result(null, err);
-//        return;
-//      }
+Character.updateById = (id, character, result) => {
+  sql.query(
+    "UPDATE characters SET name = ?, gender = ?, combat = ?, tech = ?, observation = ?, empathy = ?, willpower = ?, running = ?, doctor = ?  WHERE char_id = ?",
+      [character.name, character.gender, character.combat, character.tech, character.observation, character.empathy, character.willpower, character.running, character.doctor, id],
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(null, err);
+        return;
+      }
 
-//      if (res.affectedRows == 0) {
-//        // not found Character with the id
-//        result({ kind: "not_found" }, null);
-//        return;
-//      }
+      if (res.affectedRows == 0) {
+        // not found Character with the id
+        result({ kind: "not_found" }, null);
+        return;
+      }
 
-//      console.log("updated character: ", { id: id, ...location });
-//      result(null, { id: id, ...location });
-//    }
-//  );
-//};
+      console.log("updated character: ", { id: id, ...character });
+      result(null, { id: id, ...character });
+    }
+  );
+};
 
 Character.remove = (id, result) => {
   sql.query("DELETE FROM characters WHERE char_id = ?", id, (err, res) => {

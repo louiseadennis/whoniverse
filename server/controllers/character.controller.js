@@ -119,7 +119,7 @@ const findOneWithIcons = (req, res) => {
 
 };
 
-// Update a Location identified by the id in the request
+// Update a Character identified by the id in the request
 const update = (req, res) => {
   // Validate Request
   if (!req.body) {
