@@ -16,7 +16,7 @@ export class Character {
 	this.doctor = resJson.doctor;
 	this.icons = [];
 	for (var i in resJson.icons) {
-	    this.icons.push([resJson.icons[i].default, resJson.icons[i].picture]);
+	    this.icons.push([resJson.icons[i].default, resJson.icons[i].picture, resJson.icons[i].char_icon_id]);
 	}
     }
 

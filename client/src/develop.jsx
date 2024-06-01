@@ -132,7 +132,7 @@ export const Develop = (props) => {
 			  		setActiveItem={setEditCharacterActive}
 			  		activeItem={editCharacterActive}
 			  		description="Edit Characters">
-					<ul>
+						<ul>
 			      		<CharacterThumbnails revealForm = {setShowEditCharacter} revealed={showEditCharacter}/>
   							{showEditCharacter ? <EditCharacter id={showEditCharacter} /> : <p></p>}
 					</ul>

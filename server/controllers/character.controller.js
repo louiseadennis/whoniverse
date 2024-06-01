@@ -144,9 +144,65 @@ const update = (req, res) => {
             message: "Error updating Character with id " + req.body.character_id
           });
         }
-      } else res.send(data);
+      }
     }
   );
+
+    for (var i in req.body.icons) {
+	console.log("checking icon ");
+	console.log(req.body.icons[i]);
+	if (req.body.icons[i][0] === 1) {
+	    console.log("making default ");
+	    console.log(req.body.icons[i]);
+	    
+	    Character_Icon.make_default(req.body.icons[i][2], req.body.character_id,
+		(err, data) => {
+	    if (err) {
+		if (err.king === "not_found") {
+		    res.status(404).send({
+			message: `Not found Character Icon with id ${req.body.icons[i][2]}.`
+		    });
+		} else {
+		    res.status(500).send({
+			message: "Error updating Character Icon with id " + req.body.icons[i][2]
+		    });
+		}
+	    } else res.send(data);
+		}
+					)
+	}
+    }
+};
+
+const default_icon = (req, res) => {
+  // Validate Request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }
+
+    console.log(req.body);
+
+    new Character_Icon(req.body),
+
+    Character_Icons.make_default(
+	req.body.character_icon_id,
+	req.body.character_id,
+	(err, data) => {
+	    if (err) {
+		if (err.king === "not_found") {
+		    res.status(404).send({
+			message: `Not found Character Icon with id ${req.body.character_icon_id}.`
+		    });
+		} else {
+		    res.status(500).send({
+			message: "Error updating Character Icon with id " + req.body.character_icon_id
+		    });
+		}
+	    } else res.send(data);
+	}
+    );
 };
 
 // Delete a Character with the specified id in the request
@@ -167,4 +223,4 @@ exports.delete = (req, res) => {
 };
 
 
-module.exports = { findOne, findAll, findAllDefault, update, findOneWithIcons }
+module.exports = { findOne, findAll, findAllDefault, update, findOneWithIcons, default_icon }

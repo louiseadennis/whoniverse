@@ -36,7 +36,7 @@ export const ShowLocation = (props) => {
 
 	fetchData()
 	    .catch(console.error);
-    }, [])
+    }, [id])
 
     return (
          <div>

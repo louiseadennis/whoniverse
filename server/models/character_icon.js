@@ -74,9 +74,47 @@ Character_Icon.getAll = (result) => {
   });
 };
 
-// Character.updateById = (id, character, result) => {
-//  sql.query(
-//    "UPDATE characters SET name = ?, gender = ?, combat = ?, tech = ?, observation = ?, empathy = ?, willpower = ?, running = ?, doctor = ?  WHERE id = ?",
+Character_Icon.make_default = (icon_id, char_id, result) => {
+    let query = "SELECT * FROM character_icons WHERE char_id = ? AND character_icons.default = 1";
+
+    sql.query(query, [char_id], (err, res) => {
+	if (err) {
+	    console.log("error: no default icon", err);
+	} else {
+	    for (let i = 0; i < res.length; i++) {
+		console.log(res);
+		console.log(res[0].char_icon_id);
+		console.log("setting to not default");
+		const id = parseInt(res[0].char_icon_id);
+		let del_query = "UPDATE character_icons SET character_icons.default = 0 WHERE char_icon_id = ?";
+		sql.query(del_query, [id], (err1, res1) => {
+		    if (err1) {
+			console.log("error: error removing default from icon", err1);
+		    }
+		    console.log("set to 0", res1);
+		});
+	    }
+
+	    console.log("setting default");
+	    console.log(icon_id);
+	    let add_query = "UPDATE character_icons SET character_icons.default = 1 WHERE char_icon_id = ?";
+	    sql.query(add_query, [icon_id], (err1, res1) => {
+		if (err) {
+		    console.log("error:error setting default", err1);
+		} 
+	    });
+
+	    console.log("updated icons", res);
+	    result(null, res);
+	}
+    });
+	
+			 
+}
+
+//Character_Icon.updateById = (id, character_icon, result) => {
+//    sql.query(
+//	"UPDATE character_icons SET picture = ?, char_id = ?, combat = ?, tech = ?, observation = ?, empathy = ?, willpower = ?, running = ?, doctor = ?  WHERE id = ?",
 //      [character.name, character.gender, character.combat, character.tech, character.observation, character.empathy, character.willpower, character.running, character.doctor id],
 //    (err, res) => {
 //      if (err) {

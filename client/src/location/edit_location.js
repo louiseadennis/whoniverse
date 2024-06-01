@@ -34,7 +34,7 @@ export const EditLocation = (props) => {
 
         fetchData()
             .catch(console.error);
-    }, [])
+    }, [id])
 
 
     const handleSubmit = async (e) => {
