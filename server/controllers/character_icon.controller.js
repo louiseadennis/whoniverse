@@ -1,7 +1,9 @@
 const Character_Icon = require("../models/character_icon.js");
 
 // Create and Save a new Location
-exports.create = (req, res) => {
+const create = (req, res) => {
+    console.log("calling icon create");
+    console.log(req)
   // Validate request
   if (!req.body) {
     res.status(400).send({
@@ -17,7 +19,7 @@ exports.create = (req, res) => {
   });
 
   // Save Character in the database
-  Character_Icon.create(icon, (err, data) => {
+  Character_Icon.create(character_icon, (err, data) => {
     if (err)
       res.status(500).send({
         message:
@@ -41,7 +43,7 @@ const findAll = (req, res) => {
 };
 
 // Retrieve all Icons for a characterfrom the database.
-const findAll = (req, res) => {
+const findAllChar = (req, res) => {
     console.log("calling find all");
     Character_Icon.getAllChar(req.params.char_id, (err, data) => {
     if (err)
@@ -72,4 +74,4 @@ const findOne = (req, res) => {
 
 
 
-module.exports = { findOne, findAll, findAllChar }
+module.exports = { findOne, findAll, findAllChar, create }

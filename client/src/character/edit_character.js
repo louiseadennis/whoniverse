@@ -4,6 +4,7 @@ import { Character } from "./character_class";
 export const EditCharacter = (props) => {
     const [character, setCharacter] = useState(new Character("none") );
     const [message, setMessage] = useState('');
+    const [picture, setPicture] = useState('');
     const id = props.id;
 
     
@@ -70,6 +71,32 @@ export const EditCharacter = (props) => {
 	}
     }
 
+const handleIconSubmit = async (e) => {
+    e.preventDefault();
+    setMessage("Called Icon Submit");
+	try {
+	    let res = await fetch("/character_icons/add", {
+		method: "POST",
+		body: JSON.stringify({
+		    char_id: id,
+		    picture: picture
+		}),
+		headers: {
+		    'Content-type': 'application/json; charset=UTF-8',
+		},
+	    });
+	    let resJson = await res.json();
+//	    if (res.status === 200) {
+//		setMessage(resJson.message);
+//	    } else {
+//		setMessage(resJson.message);
+//	    }
+	} catch (err) {
+	    console.log(err);
+	}
+    }
+    
+
     const update_character = (key, value) => {
 	setCharacter({name: (key === "name" ? value :  character.name),
 		      combat: (key === "combat" ? value : character.combat),
@@ -82,6 +109,8 @@ export const EditCharacter = (props) => {
 		      doctor: (key === "doctor" ? value: character.doctor),
 		      icons: character.icons})
     }
+
+    const add_none = (icon_list) => { icon_list.concat("none") }
 
     const update_default_icon = (value) => {
 	var icon_list = [];
@@ -124,10 +153,15 @@ export const EditCharacter = (props) => {
 	    <li style={{display:`inline-block`}}>Running: <input value={character.running} onChange={(e) => update_character("running", e.target.value)} name="running" id="running" required /></li>
 	    <li style={{display:`inline-block`}}>Doctor: <input value={character.doctor} onChange={(e) => update_character("doctor", e.target.value)} name="doctor" id="doctor" required /></li>
 	    </ul> 
-            <label htmlfof="default_image">Default Image</label><div><select onChange={(e) => update_default_icon(e.target.value)} id="icon" name="icon">{icon_names(character.icons)}</select></div>
+            <label htmlfof="default_image">Default Image</label><div><select onChange={(e) => update_default_icon(e.target.value)} id="icon" name="icon">{icon_names(character.icons.concat([[0, "none", 0]]))}</select></div>
             <p><button>Edit Character</button></p>
-        </form>
-            Add Icon: <input value="File Name"  name="icon" id="icon" />
+	    </form>
+	    <div>
+            <form className="add-icon-form" onSubmit={handleIconSubmit}>
+            Add Icon: <input value={picture}  onChange={(e) => setPicture(e.target.value)} name="icon" id="icon" />
+            <p><button>Add Icon</button></p>
+	   </form>
+	    </div>
         </div>
     );
 }

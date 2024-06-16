@@ -98,23 +98,25 @@ const findOneWithIcons = (req, res) => {
    Character_Icon.getAllChar(req.body.id, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
-        res.status(404).send({
-          message: `Not found Icon with Character id ${req.body.id}.`
-        });
+	  console.log("no icons");
+//        res.status(404).send({
+//          message: `Not found Icon with Character id ${req.body.id}.`
+//        });
       } else {
+	  console.log("icon error");
         res.status(500).send({
           message: "Error retrieving Icon with character id " + req.body.id
         });
       }
     } else {
-	icon_data = data;
+    icon_data = data;
     console.log("icon_data");
     console.log(icon_data);
-    character_data.icons = icon_data;
+	character_data.icons = icon_data;
+    }
     console.log("character data");
     console.log(character_data);
     res.send(character_data);
-    }
    });
 
 };

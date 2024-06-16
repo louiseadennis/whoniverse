@@ -46,7 +46,7 @@ export const ShowCharacter = (props) => {
     return (
          <div>
 	    <div>
-	    <h2>{character.state.name} {character.picture}</h2>
+	    <h2>{character.name} {id} </h2>
 	    </div>
 	    <div>
 	    <p>Gender:{character.gender}</p>
