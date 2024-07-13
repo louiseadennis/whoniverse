@@ -6,7 +6,7 @@ const LocationState = function(location_state) {
 }
 
 LocationState.create = (newLocation, result) => {
-    sql.query("INSERT INTO location_states (location_id) VALUES (?)", (newLocation.location_id), function(err, res, fields) => {
+    sql.query("INSERT INTO location_states (location_id) VALUES (?)", [newLocation.location_id, newLocation.user_id], (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -18,8 +18,8 @@ LocationState.create = (newLocation, result) => {
   });
 };
 
-Location.findById = (id, result) => {
-  sql.query(`SELECT * FROM locations_states WHERE id = ${id}`, (err, res) => {
+LocationState.findById = (id, user_id, result) => {
+    sql.query(`SELECT * FROM location_states LEFT JOIN locations on location_states.location_id = locations.id WHERE location_states.location_id = ${id} and user_id = ${user_id}`, function(err, res, fields) {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -93,3 +93,5 @@ LocationState.remove = (id, result) => {
     result(null, res);
   });
 };
+
+module.exports = LocationState;

@@ -4,7 +4,6 @@ import { Location } from "./location_class";
 
 export const ShowLocation = (props) => {
     console.log("entered show location");
-    console.log(props.id);
     const [location, setLocation] = useState(new Location("none") );
     const id = props.id;
 

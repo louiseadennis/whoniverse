@@ -7,7 +7,6 @@
 // Express Sessions - Install with command: npm install express-session --save.
 
 const express = require('express');
-//const session = require('express-session');
 
 const app=express();
 
@@ -25,6 +24,7 @@ app.get("/", (req, res) => {
 app.use('/auth', require('./routes/auth'));
 app.use('/locations', require('./routes/locations'));
 app.use('/characters', require('./routes/characters'));
+app.use('/characters_in_play', require('./routes/characters_in_play'));
 app.use('/character_icons', require('./routes/character_icons'));
 
 

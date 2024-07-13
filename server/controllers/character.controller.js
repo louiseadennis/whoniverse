@@ -1,4 +1,4 @@
-const Character = require("../models/character.js");
+const Character = require("../models/character.model.js");
 const Character_Icon = require("../models/character_icon.js");
 
 // Create and Save a new Location

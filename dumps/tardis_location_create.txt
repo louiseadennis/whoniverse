@@ -1,0 +1,7 @@
+CREATE TABLE `tardis_location` (
+       `id` int NOT NULL AUTO_INCREMENT,
+       `location_id` int NOT NULL,
+       `user_id` int NOT NULL,
+       UNIQUE (`user_id`),
+       PRIMARY KEY (`id`)
+       )

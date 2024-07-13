@@ -29,7 +29,7 @@ export class Location extends Component {
 		<h2>Location</h2>
 		{ this.state.loading ? 
 			<span>Loading ...</span> :
-			<ShowLocationState id={this.pov}/>
+			    <ShowLocationState id={this.pov} user={this.user}/>
 		}
 		</div>
 		)

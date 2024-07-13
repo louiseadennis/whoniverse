@@ -7,19 +7,19 @@ export class User {
     completeStories = [];
     availableItems = [];
     
-    constructor(username) {
-	this.state = {username: username};
+    constructor(name) {
+	this.username = name;
     }
 
     async getPOV() {
-	if (! this.state.POV) {
+	if (! this.POV) {
 	    console.log("no pov!");
-	if (this.state.username != "no_user_here_at_all") {
+	if (this.username != "no_user_here_at_all") {
 	    try {
                         let res = await fetch("/auth/get_user", {
                         method: "POST",
                         body: JSON.stringify({
-                                username: this.state.username,
+                                username: this.username,
                         }),
                         headers: {
                                 'Content-type': 'application/json; charset=UTF-8',
@@ -28,9 +28,10 @@ export class User {
                         let resJson = await res.json();
                         if (res.status === 200) {
                             console.log("calling get user");
-                            this.state.POV = resJson.pov;
+                            this.POV = resJson.pov;
+			    this.user_id = resJson.id;
                             console.log("setting user pov");
-			    return this.state.POV;
+			    return this.POV;
                         } else {
                             console.log("error getting user");
                         }
@@ -41,15 +42,45 @@ export class User {
 	}
 	} else {
 	    console.log("returning");
-	    console.log(this.state.POV);
-	    return this.state.POV;
+	    console.log(this.POV);
+	    return this.POV;
 	}
 
     }
 
-    get username() {
-	return this.username;
+    async getTardis() {
+	    if (this.username != "no_user_here_at_all") {
+		try {
+                    let res = await fetch("/auth/get_tardis", {
+                        method: "POST",
+                        body: JSON.stringify({
+                            user_id: this.user_id,
+                        }),
+                        headers: {
+                            'Content-type': 'application/json; charset=UTF-8',
+                        },
+                    });
+                    let resJson = await res.json();
+                    if (res.status === 200) {
+                        console.log("calling tardis");
+                        this.Tardis = resJson.id;
+			this.tardis_location = resJson.location_id;
+			this.characters_in_tardis = [];
+			for (var i in resJson.characters) {
+			    this.characters_in_tardis.push([resJson.characters[i].id, resJson.characters[i].picture]);
+			}
+                        console.log("setting Tardis");
+			return this.tardis_location;
+                    } else {
+                        console.log("error getting user");
+                    }
+		} catch (err) {
+		    console.log(err);
+		}
+		
+	    }
     }
+
 
     addAvailableCharacter(character) {
 	this.availableCharacters.push(character);

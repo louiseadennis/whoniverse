@@ -1,4 +1,5 @@
 const Location = require("../models/location.js");
+const LocationState = require("../models/location_state.js");
 
 // Create and Save a new Location
 //const create = (req, res) => {
@@ -61,6 +62,25 @@ const findOne = (req, res) => {
   });
 };
 
+
+// Find a single Location State by Id and User Id
+const findOneState = (req, res) => {
+    LocationState.findById(req.body.id, req.body.user_id, (err, data) => {
+	console.log("entered location controller find one");
+	if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found Location with id ${req.params.id}.`
+        });
+      } else {
+        res.status(500).send({
+          message: "Error retrieving Location with id " + req.params.id
+        });
+      }
+    } else res.send(data);
+  });
+};
+
 // Update a Location identified by the id in the request
 const update = (req, res) => {
   // Validate Request
@@ -106,6 +126,6 @@ const update = (req, res) => {
 //  });
 //};
 
-module.exports = { findOne, findAll, update };
+module.exports = { findOne, findAll, update, findOneState };
 
 

@@ -32,7 +32,7 @@ function App() {
     const logIn = (userIn) => {
 	console.log("calling LogIn");
 	setUser( userIn );
-	saveUserName( userIn.state.username );
+	saveUserName( userIn.username );
 	console.log("user set login");
 	saveLoggedIn();
 	setLoggedIn(true);

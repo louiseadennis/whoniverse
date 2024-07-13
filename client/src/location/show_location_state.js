@@ -1,26 +1,28 @@
 import React, { useState, useEffect } from "react";
 import { ShowLocation } from "./show_location";
+import { ShowTardis } from "./show_tardis";
 
 export const ShowLocationState = (props) => {
     console.log("entered show location state");
     console.log(props.id);
-    // const [location, setLocation] = useState('0');
-    const [loading, setLoading ] = useState('true');
+    const [loading, setLoading ] = useState(1);
     const id = props.id;
+    const user = props.user;
+    user.getTardis();
+    const tardis = user.tardis_location == id;
 
     // Not sure why I'm doing this...
     useEffect(() => {
-	console.log("lsid:");
-	console.log(id);
-	if (id != 0) {
+	if (id !== 0) {
 	    console.log("id not zero");
 	    console.log(id);
 	    const fetchData = async () => {
 		try {
-		    let res = await fetch("/locations", {
+		    let res = await fetch("/locations/get_state", {
 			method: "POST",
 			body: JSON.stringify({
 			    id: id,
+			    user_id: user.user_id,
 			}),
 		headers: {
 		    'Content-type': 'application/json; charset=UTF-8',
@@ -31,7 +33,6 @@ export const ShowLocationState = (props) => {
 		console.log("got location state");
 		console.log(resJson);
 		let location_id = resJson.location_id;
-		// setLocation(location_id);
 		setLoading(false);
 	    }
 	} catch (err) {
@@ -47,6 +48,7 @@ export const ShowLocationState = (props) => {
     return (
 	<div>
 	    {loading ? <p>Please Reload</p> : <ShowLocation id={id}/>}
+	{tardis ? <ShowTardis user={user}/> : <p>The Tardis is not Here</p>}
 	</div>
     );
 }
