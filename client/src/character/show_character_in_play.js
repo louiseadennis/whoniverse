@@ -46,10 +46,10 @@ export const ShowCharacterIP = (props) => {
     return (
          <div>
 	    <div>
-	    <h2>{character.name} {id} {character.id} </h2>
+	    <h2>{character.name}</h2>
 	    </div>
 	    <div>
-	    {picture_string(character.picture)}
+	    <img src={picture_string(character.picture)} width="100"/>
 	    </div>
         </div>
     );

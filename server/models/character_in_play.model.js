@@ -26,7 +26,7 @@ Character_In_Play.create = (newCharacter, result) => {
 };
 
 Character_In_Play.findById = (id, result) => {
-  sql.query(`SELECT * FROM characters_in_play LEFT JOIN character_icons ON characters_in_play.char_id = character_icons.char_id WHERE id = ${id}`, (err, res) => {
+  sql.query(`SELECT name, picture FROM characters_in_play LEFT JOIN character_icons ON characters_in_play.char_id = character_icons.char_id LEFT JOIN characters ON characters_in_play.char_id = characters.char_id WHERE id = ${id}`, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -41,79 +41,6 @@ Character_In_Play.findById = (id, result) => {
 
     // not found Character with the id
     result({ kind: "not_found" }, null);
-  });
-};
-
-Character_In_Play.getAll = (result) => {
-  let query = "SELECT * FROM characters_in_play";
-
-    sql.query(query, function(err, res, fields) {
-    if (err) {
-      console.log("error: ", err);
-      result(null, err);
-      return;
-    }
-
-    console.log("characters: ", res);
-    result(null, res);
-  });
-};
-
-
-Character_In_Play.getAllDefault = (result) => {
-  let query = "SELECT characters_in_play.char_id, character_icons.char_icon_id, character_icons.picture FROM characters_in_play LEFT JOIN character_icons ON characters_in_play.char_id = character_icons.char_id and  character_icons.default = 1;"
-
-    sql.query(query, function(err, res, fields) {
-    if (err) {
-      console.log("error: ", err);
-      result(null, err);
-      return;
-    }
-
-    console.log("characters: ", res);
-    result(null, res);
-  });
-};
-
-Character_In_Play.updateById = (id, character, result) => {
-  sql.query(
-    "UPDATE characters_in_play SET user_id = ?, char_id = ?, combat = ?, tech = ?, observation = ?, empathy = ?, willpower = ?, running = ?, location_id = ?  WHERE char_id = ?",
-      [character.user_id, character.char_id, character.combat, character.tech, character.observation, character.empathy, character.willpower, character.running, character.location_id, id],
-    (err, res) => {
-      if (err) {
-        console.log("error: ", err);
-        result(null, err);
-        return;
-      }
-
-      if (res.affectedRows == 0) {
-        // not found Character with the id
-        result({ kind: "not_found" }, null);
-        return;
-      }
-
-      console.log("updated character: ", { id: id, ...character });
-      result(null, { id: id, ...character });
-    }
-  );
-};
-
-Character_In_Play.remove = (id, result) => {
-  sql.query("DELETE FROM characters_in_play WHERE char_id = ?", id, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(null, err);
-      return;
-    }
-
-    if (res.affectedRows == 0) {
-      // not found Character with the id
-      result({ kind: "not_found" }, null);
-      return;
-    }
-
-    console.log("deleted character with id: ", id);
-    result(null, res);
   });
 };
 
