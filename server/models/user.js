@@ -8,82 +8,75 @@ const User = function(user) {
     this.password = user.password;
 }
 
-User.register = (newUser, result) => {
+/* User.register = (newUser, result) => {
     console.log("registering " + newUser);
     
-}
+} */
 
-User.create = (newUser, result) => {
-    sql.query('SELECT * FROM accounts WHERE username = ?', [newUser.username], function(error, results, fields) {
-            // If there is an issue with the query, output the error
-        if (error) {
-	    console.log("error: ", error);
-	    result(error, null);
-	    return;
-	}
-	
+User.create = async (newUser) => {
+    try {
+	const [rows, fields] = await sql.query('SELECT * FROM accounts WHERE username = ?', [newUser.username]);
+
         // If the account exists
-        if (results.length > 0) {
+        if (rows.length > 0) {
             console.log("error: username exists!");
-            result(201, {message: "Username exists!"});
+            return({message: "Username exists!"});
 	} else {
-	    sql.query('INSERT into accounts (username, email, password) VALUES (?, ?, ?)', [newUser.username, newUser.email, newUser.password], function(error, res, fields) {
-		if (error) {
-		    console.log("error: ", error);
-		    result(error, null);
-		    return;
-		}
+	    try {
+		const [rows, fields] = await sql.query('INSERT into accounts (username, email, password) VALUES (?, ?, ?)', [newUser.username, newUser.email, newUser.password]);
 		console.log("created user: ", {id: res.insertID, ...newUser });
-		result(null, {id: res.insertId, ...newUser });
-	    });
+		return({id: res.insertId, ...newUser });
+	    } catch (err) {
+		return({message: err});
+	    }
 	}
-    });
+    } catch (err) {
+	return({message:err});
+    }
 };
 
-User.findByUsername = (username, result) => {
+User.findByUsername = async (username) => {
     console.log("entered find by username");
-    sql.query(`SELECT * FROM accounts WHERE username = '${username}'`, function(err, res, fields) {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
+    try {
+	const [rows, fields] = await sql.query(`SELECT * FROM accounts WHERE username = '${username}'`);
 
-    if (res.length) {
-      console.log("found user: ", res[0]);
-      result(null, res[0]);
-      return;
+	if (rows.length > 0) {
+	    return rows[0];
+	} else {
+	    return({message:"user not found"});
+	}
+    } catch (err) {
+	return({message: err});
     }
-
-    // not found User with the id
-    result({ kind: "not_found" }, null);
-  });
 };
 
 // I'm pretty sure this is a function from username, password, result to void.
 // Result is a function with arguments (err, data).
-User.auth = (username, password, result) => {
-    sql.query(`SELECT * FROM accounts WHERE username = '${username}' AND password = '${password}'`, function (err, res, fields)  {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
+User.auth = async (username, password) => {
+    console.log("entered user model auth");
+    try {
+	const sql_query = `SELECT * FROM accounts WHERE username = '${username}' AND password = '${password}'`;
+	console.log(sql_query);
+	const [rows, fields] = await sql.query(sql_query);
+	console.log(rows[0]);
+	
+
+	if (rows.length > 0) {
+	    console.log("found user: ", rows[0]);
+	    return(rows[0])
+	} else {
+	    console.log("user not found");
+	    return({message: "User not found"});
+	}
+    } catch (err) {
+	console.log("user model auth error!");
+	console.log(err);
+	return({ message: err});
     }
 
-    if (res.length) {
-      console.log("found user: ", res[0]);
-      result(null, res[0]);
-      return;
-    }
-
-    // not found User with the id
-	console.log("not found user");
-	console.log(`SELECT * FROM accounts WHERE username = '${username}' AND password = '${password}'`);
-    result({ kind: "not_found" }, null);
-  });
 };
 
-User.findById = (id, result) => {
+/* User.findById = (id, result) => {
   sql.query(`SELECT * FROM accounts WHERE id = ${id}`, (err, res) => {
     if (err) {
       console.log("error: ", err);
@@ -100,6 +93,6 @@ User.findById = (id, result) => {
     // not found User with the id
     result({ kind: "not_found" }, null);
   });
-};
+}; */
 
 module.exports = User;

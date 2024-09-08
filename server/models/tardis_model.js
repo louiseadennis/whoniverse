@@ -6,26 +6,25 @@ const Tardis = function(tardis) {
     this.user = tardis.user_id;
 }
 
-Tardis.findByUserID = (id, result) => {
-    console.log("entered tardis find by user id");
-    sql.query(`Select * from tardis_location where user_id = ${id}`, (err, res) => {
-	if (err) {
-	    console.log("error: ", err);
-	    result(err, null);
-	    return;
+Tardis.findByUserID = async (id) => {
+    console.log("entered tardis find by user id:" + id);
+    if (id === undefined) {
+	console.log("user id undefined");
+    } else {
+	console.log("inside else");
+	const sql_query = `Select * from tardis_location where user_id = ${id}`;
+	try {
+	    const [rows, fields] = await sql.query(sql_query);
+	    console.log(rows);
+	    // console.log(fields);
+	    return rows[0];
+	} catch (err) {
+	    console.log(err);
 	}
-
-	if (res.length) {
-	    console.log("found tardis: ", res[0]);
-	    result(null, res[0]);
-	    return;
-	}
-
-	console.log("tardis not found");
-	//not found Tardis for user id
-	result({ kind: "not_found" }, null);
-    });
+							  
+    }
     console.log("didn't return");
+    return 2;
 };
 
 module.exports = Tardis;

@@ -33,7 +33,7 @@ export const EditCharacter = (props) => {
 
         fetchData()
             .catch(console.error);
-    }, [props.id])
+    }, [id])
 
     const icon_names = (icon_list) => icon_list.map((d) => <option value={d[2]} selected={d[0]}>{d[1]}{d[0] ? " (default) " : ""}</option>);
 
@@ -86,11 +86,6 @@ const handleIconSubmit = async (e) => {
 		},
 	    });
 	    let resJson = await res.json();
-//	    if (res.status === 200) {
-//		setMessage(resJson.message);
-//	    } else {
-//		setMessage(resJson.message);
-//	    }
 	} catch (err) {
 	    console.log(err);
 	}
@@ -110,7 +105,6 @@ const handleIconSubmit = async (e) => {
 		      icons: character.icons})
     }
 
-    const add_none = (icon_list) => { icon_list.concat("none") }
 
     const update_default_icon = (value) => {
 	var icon_list = [];

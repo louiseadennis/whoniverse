@@ -1,5 +1,5 @@
-const Location = require("../models/location.js");
-const LocationState = require("../models/location_state.js");
+const Location = require("../models/location.model.js");
+const LocationState = require("../models/location_state.model.js");
 
 // Create and Save a new Location
 //const create = (req, res) => {
@@ -28,10 +28,21 @@ const LocationState = require("../models/location_state.js");
 //  });
 //};
 
-// Retrieve all Locations from the database (with condition).
-const findAll = (req, res) => {
+const send_data = (res, data) => {
+    if (data.message) {
+	res.status(500).send(data.message);
+    } else {
+	res.status(200).send(data);
+    }
+}
 
-    Location.getAll((err, data) => {
+// Retrieve all Locations from the database (with condition).
+const findAll = async (req, res) => {
+
+    data = await Location.getAll();
+    send_data(res, data);
+
+    /* (err, data) => {
 	console.log("entered location controller find all");
 	if (err) {
 	    console.log("location get all error");
@@ -41,72 +52,37 @@ const findAll = (req, res) => {
 	    });
 	}
     else res.send(data);
-    });
+    });*/
 };
 
 // Find a single Location by Id
-const findOne = (req, res) => {
-    Location.findById(req.body.id, (err, data) => {
-	console.log("entered location controller find one");
-	if (err) {
-      if (err.kind === "not_found") {
-        res.status(404).send({
-          message: `Not found Location with id ${req.params.id}.`
-        });
-      } else {
-        res.status(500).send({
-          message: "Error retrieving Location with id " + req.params.id
-        });
-      }
-    } else res.send(data);
-  });
+const findOne = async (req, res) => {
+    data = await Location.findById(req.body.id);
+
+    send_data(res, data);
 };
 
 
 // Find a single Location State by Id and User Id
-const findOneState = (req, res) => {
-    LocationState.findById(req.body.id, req.body.user_id, (err, data) => {
-	console.log("entered location controller find one");
-	if (err) {
-      if (err.kind === "not_found") {
-        res.status(404).send({
-          message: `Not found Location with id ${req.params.id}.`
-        });
-      } else {
-        res.status(500).send({
-          message: "Error retrieving Location with id " + req.params.id
-        });
-      }
-    } else res.send(data);
-  });
+const findOneState = async (req, res) => {
+    data = await LocationState.findById(req.body.id, req.body.user_id);
+
+    send_data(res, data);
 };
 
 // Update a Location identified by the id in the request
-const update = (req, res) => {
-  // Validate Request
-  if (!req.body) {
-    res.status(400).send({
-      message: "Content can not be empty!"
-    });
-  }
+const update = async (req, res) => {
+    // Validate Request
+    if (!req.body) {
+	res.status(400).send({
+	    message: "Content can not be empty!"
+	});
+    }
 
- console.log(req.body);
 
- Location.updateById(req.body.location_id,
-   new Location(req.body),
-    (err, data) => {
-      if (err) {
-        if (err.kind === "not_found") {
-          res.status(404).send({
-            message: `Not found Location with id ${req.body.id}.`
-          });
-       } else {
-          res.status(500).send({
-            message: "Error updating Location with id " + req.body.id
-          });
-        }
-     } else res.send(data);
-    });
+    data = await Location.updateById(req.body.location_id,   new Location(req.body));
+
+    send_data(res, data);
 };
 
 // Delete a Location with the specified id in the request

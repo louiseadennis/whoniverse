@@ -25,7 +25,8 @@ const create = (req, res) => {
 
 // Find a single Location by Id
 const findOneWithIcons = (req, res) => {
-  console.log("entered character_in_play find one with icons");
+    console.log("entered character_in_play find one with icons");
+    character_data = [];
    
   Character.findById(req.body.id, (err, data) => {
     if (err) {

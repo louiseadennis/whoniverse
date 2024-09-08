@@ -12,8 +12,11 @@ export const saveLoggedOut = () => {
        }
 
 export const isLoggedIn = () => {
-       const loggedin = localStorage.getItem(loginKey);
-       return loggedin ? loggedin === 'true': false
+    const loggedin = localStorage.getItem(loginKey);
+    if (loggedin === null) {
+	return false;
+    }
+    return loggedin ? loggedin === 'true': false
 }
 
 export const saveUserName = ( username ) => {
@@ -21,5 +24,9 @@ export const saveUserName = ( username ) => {
 }
 
 export const getSavedUserName = () => {
-    return localStorage.getItem(userKey);
+    const username = localStorage.getItem(userKey);
+    if (username === null) {
+	return "no_user_her_at_all";
+    }
+    return username;
 }

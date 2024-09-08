@@ -5,7 +5,7 @@ export const CharacterThumbnails = (props) => {
 
     const picture_string = (string) => {
 		console.log(string);
-	return "/assets/characters/" + string;
+		return "/assets/characters/" + string;
     }
     
     const items = characters.map((d) => 
@@ -13,23 +13,23 @@ export const CharacterThumbnails = (props) => {
 		<p><img src={picture_string(d.picture)} width="100"/></p>{d.char_id}: {d.name}</button></div>);
 
     useEffect(() => {
-	const fetchData = async () => {
-	try {
-		console.log("trying fetch get_character_thumnails");
-	    let res = await fetch("/characters/get_character_thumbnails", {
-		method: "POST",
-		headers: {
-		    'Content-type': 'application/json; charset=UTF-8',
-		},
-	    });
-	    let resJson = await res.json();
-	    if (res.status === 200) {
-			console.log(resJson);
-			setCharacters(resJson);
-	    }
-	} catch (err) {
-	    console.log(err);
-	}
+		const fetchData = async () => {
+		try {
+			console.log("trying fetch get_character_thumnails");
+	    	let res = await fetch("/characters/get_character_thumbnails", {
+			method: "POST",
+			headers: {
+		    	'Content-type': 'application/json; charset=UTF-8',
+			},
+	    	});
+	    	let resJson = await res.json();
+	    	if (res.status === 200) {
+				console.log(resJson);
+				setCharacters(resJson);
+	    	}
+		} catch (err) {
+	    	console.log(err);
+		}
 	}
 
 	fetchData()
@@ -40,7 +40,7 @@ export const CharacterThumbnails = (props) => {
 
     return (
         <div className="thumbnails">
-	  {items}
+	  		{items}
         </div>
     );
 }
