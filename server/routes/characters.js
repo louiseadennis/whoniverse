@@ -10,7 +10,7 @@ router.post('/', characters.findOneWithIcons);
 
 router.post('/get_character_thumbnails', characters.findAllDefault);
 
-router.post('/default_icon', characters.default_icon);
+//router.post('/default_icon', characters.default_icon);
 
 module.exports = router;
 

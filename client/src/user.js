@@ -67,10 +67,10 @@ export class User {
 			console.log(resJson);
                         this.tardis_id = resJson.id;
 			this.tardis_location = resJson.location_id;
-		//	this.characters_in_tardis = [];
-			//for (var i in resJson.characters) {
-			//    this.characters_in_tardis.push([resJson.characters[i].id, resJson.characters[i].picture]);
-			//}
+			this.characters_in_tardis = [];
+			for (var i in resJson.characters) {
+			    this.characters_in_tardis.push([resJson.characters[i].id, resJson.characters[i].picture]);
+			}
                         console.log("setting Tardis");
 			console.log(this.tardis_location);
 			return this.tardis_location;

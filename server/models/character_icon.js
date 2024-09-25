@@ -7,7 +7,7 @@ const Character_Icon = function(character_icon) {
     this.def = character_icon.def;
 }
 
-Character_Icon.create = (newIcon, result) => {
+/*Character_Icon.create = (newIcon, result) => {
     sql.query("INSERT INTO character_icons (picture, char_id, character_icons.default) VALUES (?, ?, ?)", [newIcon.picture, newIcon.char_id, newIcon.def], (err, res) => {
     if (err) {
       console.log("error: ", err);
@@ -38,28 +38,25 @@ Character_Icon.findById = (id, result) => {
     // not found Character with the id
     result({ kind: "not_found" }, null);
   });
-};
+}; */
 
-Character_Icon.getAllChar = (char_id, result) => {
-  sql.query(`SELECT * FROM character_icons WHERE char_id = ${char_id}`, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
+const getAllChar = async (char_id) => {
+    try {
+	const [rows, fields] =  await sql.query(`SELECT * FROM character_icons WHERE char_id = ${char_id}`);
+
+	if (rows.length) {
+	    console.log("found character icons: ", rows);
+	    return rows;
+	} else {
+	    return({message: "character not found"});
+	}
+    } catch (err) {
+	return({message: err});
     }
+}
 
-    if (res.length) {
-      console.log("found character icons: ", res);
-      result(null, res);
-      return;
-    }
 
-    // not found Icon with the char id
-    result({ kind: "not_found" }, null);
-  });
-};
-
-Character_Icon.getAll = (result) => {
+/* Character_Icon.getAll = (result) => {
   let query = "SELECT * FROM character_icons";
 
     sql.query(query, function(err, res, fields) {
@@ -72,46 +69,44 @@ Character_Icon.getAll = (result) => {
     console.log("character icons: ", res);
     result(null, res);
   });
-};
+}; */
 
-Character_Icon.make_default = (icon_id, char_id, result) => {
-    let query = "SELECT * FROM character_icons WHERE char_id = ? AND character_icons.default = 1";
+const make_default = async (icon_id, char_id) => {
+    try {
+	let query = "SELECT * FROM character_icons WHERE char_id = ? AND character_icons.default = 1";
 
-    sql.query(query, [char_id], (err, res) => {
-	if (err) {
-	    console.log("error: no default icon", err);
-	} else {
-	    for (let i = 0; i < res.length; i++) {
-		console.log(res);
-		console.log(res[0].char_icon_id);
-		console.log("setting to not default");
-		const id = parseInt(res[0].char_icon_id);
+	const [res, fields] = await sql.query(query, [char_id]);
+
+	for (let i = 0; i < res.length; i++) {
+	    console.log(res);
+	    console.log(res[0].char_icon_id);
+	    console.log("setting to not default");
+	    const id = parseInt(res[0].char_icon_id);
+	    try {
 		let del_query = "UPDATE character_icons SET character_icons.default = 0 WHERE char_icon_id = ?";
-		sql.query(del_query, [id], (err1, res1) => {
-		    if (err1) {
-			console.log("error: error removing default from icon", err1);
-		    }
-		    console.log("set to 0", res1);
-		});
+		await sql.query(del_query, [id]);
+	    } catch (err) {
+		return({message: err});
 	    }
 
 	    console.log("setting default");
 	    console.log(icon_id);
-	    let add_query = "UPDATE character_icons SET character_icons.default = 1 WHERE char_icon_id = ?";
-	    sql.query(add_query, [icon_id], (err1, res1) => {
-		if (err) {
-		    console.log("error:error setting default", err1);
-		} 
-	    });
+	    try {
+		let add_query = "UPDATE character_icons SET character_icons.default = 1 WHERE char_icon_id = ?";
+		await sql.query(add_query, [icon_id]);
+	    } catch (err) {
+		return({message: err});
+	    }
 
 	    console.log("updated icons", res);
-	    result(null, res);
+	    return res;
 	}
-    });
-	
-			 
+    } catch (err) {
+	return({message: err});
+    }
 }
 
+/*
 //Character_Icon.updateById = (id, character_icon, result) => {
 //    sql.query(
 //	"UPDATE character_icons SET picture = ?, char_id = ?, combat = ?, tech = ?, observation = ?, empathy = ?, willpower = ?, running = ?, doctor = ?  WHERE id = ?",
@@ -152,6 +147,6 @@ Character_Icon.remove = (id, result) => {
     console.log("deleted character icon with id: ", id);
     result(null, res);
   });
-};
+};*/
 
-module.exports = Character_Icon;
+module.exports = { getAllChar, make_default }

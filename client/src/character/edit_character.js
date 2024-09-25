@@ -131,7 +131,7 @@ const handleIconSubmit = async (e) => {
     return (
          <div>
 	    <div>
-	    <h2>Edit Location Form</h2>
+	    <h2>Edit Character</h2>
             {message}
 	    </div>
             <form className="add-character-form" onSubmit={handleSubmit}>

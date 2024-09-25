@@ -13,7 +13,7 @@ const Character = function(character) {
     this.doctor = character.doctor;
 }
 
-Character.create = (newCharacter, result) => {
+/* Character.create = (newCharacter, result) => {
     sql.query("INSERT INTO characters (name, gender, combat, tech, observation, empathy, willpower, running, doctor) VALUES (?, ?, ?)", (newCharacter.name, newCharacter.gender, newCharacter.combat, newCharacter.tech, newCharacter.observation, newCharacter.empathy, newCharacter.willpower, newCharacter.running, newCharacter.doctor), function(err, res, fields)  {
     if (err) {
       console.log("error: ", err);
@@ -24,44 +24,36 @@ Character.create = (newCharacter, result) => {
     console.log("created Character: ", { id: res.insertId, ...newCharacter });
     result(null, { id: res.insertId, ...newCharacter });
   });
+}; */
+
+Character.findById = async (id) => {
+    try {
+	const [rows, fields] =  await sql.query(`SELECT * FROM characters WHERE char_id = ${id}`);
+
+	if (rows.length > 0) {
+	    console.log("found character: ", rows[0]);
+	    return rows[0];
+	} else {
+	    return({message: "character not found"});
+	}
+    } catch (err) {
+	return({message: err});
+    }
 };
 
-Character.findById = (id, result) => {
-  sql.query(`SELECT * FROM characters WHERE char_id = ${id}`, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
+/* Character.findByIdWithIcons = async (id) => {
+    try {
+	const [rows, fields ] = await   sql.query(`SELECT * FROM characters LEFT JOIN character_icons ON characters.char_id = character_icons.char_id WHERE characters.char_id = ${id}`);
+
+    if (rows.length) {
+	console.log("found character: ", rows);
+	return rows;
+    } else {
+	return({message: "character not found"});
     }
-
-    if (res.length) {
-      console.log("found character: ", res[0]);
-      result(null, res[0]);
-      return;
-    }
-
-    // not found Character with the id
-    result({ kind: "not_found" }, null);
-  });
-};
-
-Character.findByIdWithIcons = (id, result) => {
-  sql.query(`SELECT * FROM characters LEFT JOIN character_icons ON characters.char_id = character_icons.char_id WHERE characters.char_id = ${id}`, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
-
-    if (res.length) {
-      console.log("found character: ", res);
-      result(null, res);
-	return;
-    }
-
-    // not found Character with the id
-    result({ kind: "not_found" }, null);
-  });
+    } catch (err) {
+	return({message: err});
+    });
 };
 
 Character.getAll = (result) => {
@@ -77,48 +69,42 @@ Character.getAll = (result) => {
     console.log("characters: ", res);
     result(null, res);
   });
-};
+}; */
 
 
-Character.getAllDefault = (result) => {
-  let query = "SELECT characters.char_id, characters.name, character_icons.char_icon_id, character_icons.picture FROM characters LEFT JOIN character_icons ON characters.char_id = character_icons.char_id and  character_icons.default = 1;"
+Character.getAllDefault = async () => {
+    try {
+	let query = "SELECT characters.char_id, characters.name, character_icons.char_icon_id, character_icons.picture FROM characters LEFT JOIN character_icons ON characters.char_id = character_icons.char_id and  character_icons.default = 1;"
 
-    sql.query(query, function(err, res, fields) {
-    if (err) {
-      console.log("error: ", err);
-      result(null, err);
-      return;
+	const [rows, fields] = await sql.query(query);
+	
+	console.log("characters: ", rows);
+	return rows;
+    } catch (err) {
+	console.log("character getalldefault returning error");
+	return({message:err});
     }
-
-    console.log("characters: ", res);
-    result(null, res);
-  });
 };
 
-Character.updateById = (id, character, result) => {
-  sql.query(
+
+Character.updateById = async (id, character) => {
+    try {
+	const [res, fields] = await sql.query(
     "UPDATE characters SET name = ?, gender = ?, combat = ?, tech = ?, observation = ?, empathy = ?, willpower = ?, running = ?, doctor = ?  WHERE char_id = ?",
-      [character.name, character.gender, character.combat, character.tech, character.observation, character.empathy, character.willpower, character.running, character.doctor, id],
-    (err, res) => {
-      if (err) {
-        console.log("error: ", err);
-        result(null, err);
-        return;
-      }
+	    [character.name, character.gender, character.combat, character.tech, character.observation, character.empathy, character.willpower, character.running, character.doctor, id]);
+
 
       if (res.affectedRows == 0) {
         // not found Character with the id
-        result({ kind: "not_found" }, null);
-        return;
-      }
+          return({message: "character not found"});
+      } else return({ id: id, ...character });
 
-      console.log("updated character: ", { id: id, ...character });
-      result(null, { id: id, ...character });
+    } catch (err) {
+	return({message: err});
     }
-  );
 };
 
-Character.remove = (id, result) => {
+/* Character.remove = (id, result) => {
   sql.query("DELETE FROM characters WHERE char_id = ?", id, (err, res) => {
     if (err) {
       console.log("error: ", err);
@@ -136,5 +122,6 @@ Character.remove = (id, result) => {
     result(null, res);
   });
 };
+*/
 
 module.exports = Character;

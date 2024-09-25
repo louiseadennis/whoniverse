@@ -9,9 +9,9 @@ export const ShowLocationState = (props) => {
     const id = props.id;
     const user = props.user;
     console.log(id);
-//    user.getTardis();
-    //    const tardis = user.tardis_location == id;
-    const tardis = 0;
+    user.getTardisLocation();
+    const tardis = user.tardis_location == id;
+//    const tardis = 0;
 
     // Not sure why I'm doing this...
     useEffect(() => {
@@ -56,10 +56,10 @@ export const ShowLocationState = (props) => {
 	return (
 	    <div>
 		<ShowLocation id={id} />
-		{tardis ? <p>A</p> : <p>B</p>}
+		{ tardis ? <ShowTardis user={user}/> : <p>The Tardis is not Here</p>} 
 	    </div>
 	);
     }
 
-//	  tardis ? <ShowTardis user={user}/> : <p>The Tardis is not Here</p>)}
+//	 		{ tardis ? <ShowTardis user={user}/> : <p>The Tardis is not Here</p>} 
 }

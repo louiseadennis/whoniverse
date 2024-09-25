@@ -45,6 +45,7 @@ Location.getAll = async () => {
     try {
 	let query = "SELECT * FROM locations";
 	const [rows, fields] = await sql.query(`SELECT * FROM locations`);
+	console.log(rows);
 	return rows;
     } catch (err) {
 	return({message: err});
