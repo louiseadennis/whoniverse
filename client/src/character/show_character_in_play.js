@@ -46,7 +46,7 @@ export const ShowCharacterIP = (props) => {
     return (
          <div>
 	    <div>
-	    <h2>{character.name}</h2>
+	    <b>{character.name}</b>
 	    </div>
 	    <div>
 	    <img src={picture_string(character.picture)} width="100"/>

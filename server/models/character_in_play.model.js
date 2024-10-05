@@ -12,25 +12,19 @@ const Character_In_Play = function(character) {
     this.location = character.location_id;
 }
 
-Character_In_Play.findById = (id, result) => {
-  sql.query(`SELECT name, picture FROM characters_in_play LEFT JOIN character_icons ON characters_in_play.char_id = character_icons.char_id LEFT JOIN characters ON characters_in_play.char_id = characters.char_id WHERE id = ${id}`, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
+Character_In_Play.findById = async (id) => {
+    try {
+	const [rows, fields] = await sql.query(`SELECT name, picture FROM characters_in_play LEFT JOIN character_icons ON characters_in_play.char_id = character_icons.char_id LEFT JOIN characters ON characters_in_play.char_id = characters.char_id WHERE id = ${id}`);
+	
+	if (rows.length) {
+	    console.log("found character: ", rows[0]);
+	    return rows[0];
+	} else {
+	    return({message: "character not found in play"});
+	}
+    } catch (err) {
+	return({message: err});
     }
-
-    if (res.length) {
-      console.log("found character: ", res[0]);
-      result(null, res[0]);
-      return;
-    }
-
-      console.log("character not found but no error");
-
-    // not found Character with the id
-    result({ kind: "not_found" }, null);
-  });
 };
 
 Character_In_Play.getAllInTardis = async (user_id) => {

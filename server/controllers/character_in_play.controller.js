@@ -1,6 +1,14 @@
 const Character = require("../models/character_in_play.model.js");
 
-const create = (req, res) => {
+const send_data = (res, data) => {
+    if (data.message) {
+        res.status(500).send(data.message);
+    } else {
+        res.status(200).send(data);
+    }
+}
+
+/*const create = (req, res) => {
   // Validate request
   if (!req.body) {
     res.status(400).send({
@@ -20,34 +28,19 @@ const create = (req, res) => {
       running: req.body.running,
       doctor: req.body.doctor || false
   });
-}
+} */
     
 
 // Find a single Location by Id
-const findOneWithIcons = (req, res) => {
+const findOneWithIcons = async (req, res) => {
     console.log("entered character_in_play find one with icons");
     character_data = [];
-   
-  Character.findById(req.body.id, (err, data) => {
-    if (err) {
-      if (err.kind === "not_found") {
-        res.status(404).send({
-          message: `Not found Character with id ${req.body.id}.`
-        });
-      } else {
-        res.status(500).send({
-          message: "Error retrieving Character with id " + req.body.id
-        });
-      }
-    } else {
-	character_data = data;
-    }
-  });
 
-    console.log("character data");
-    console.log(character_data);
-    res.send(character_data);
 
+    data = await  Character.findById(req.body.id);
+    console.log(data);
+
+    send_data(res, data);
 };
 
-module.exports = { create, findOneWithIcons }
+module.exports = { findOneWithIcons }
