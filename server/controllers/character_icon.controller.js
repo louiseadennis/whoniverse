@@ -1,7 +1,16 @@
 const Character_Icon = require("../models/character_icon.js");
 
+
+const send_data = (res, data) => {
+    if (data.message) {
+        res.status(500).send(data.message);
+    } else {
+        res.status(200).send(data);
+    }
+}
+
 // Create and Save a new Location
-const create = (req, res) => {
+const create = async (req, res) => {
     console.log("calling icon create");
     console.log(req)
   // Validate request
@@ -12,25 +21,24 @@ const create = (req, res) => {
   }
 
   // Create a Character Icon
-  const character_icon = new Character_Icon({
+  /*const character_icon = new Character_Icon({
       picture: req.body.picture,
       char_id: req.body.char_id,
       def: req.body.def || false
-  });
+  });*/
 
   // Save Character in the database
-  Character_Icon.create(character_icon, (err, data) => {
-    if (err)
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while creating the Icon."
-      });
-    else res.send(data);
-  });
+    data = await Character_Icon.create({
+      picture: req.body.picture,
+      char_id: req.body.char_id,
+      def: req.body.def || false
+    });
+    console.log(data);
+    send_data(res, data);
 };
 
 // Retrieve all Icons from the database.
-const findAll = (req, res) => {
+/* const findAll = (req, res) => {
     console.log("calling find all");
     Character_Icon.getAll((err, data) => {
     if (err)
@@ -40,10 +48,10 @@ const findAll = (req, res) => {
       });
     else res.send(data);
   });
-};
+}; */
 
 // Retrieve all Icons for a characterfrom the database.
-const findAllChar = (req, res) => {
+/* const findAllChar = (req, res) => {
     console.log("calling find all");
     Character_Icon.getAllChar(req.params.char_id, (err, data) => {
     if (err)
@@ -71,7 +79,7 @@ const findOne = (req, res) => {
     } else res.send(data);
   });
 };
+*/
 
 
-
-module.exports = { findOne, findAll, findAllChar, create }
+module.exports = {  create }

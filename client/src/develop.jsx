@@ -8,7 +8,7 @@ import { ShowCharacter } from "./character/show_character";
 import { EditLocation } from "./location/edit_location";
 import { EditCharacter } from "./character/edit_character";
 
-function DevelopItem({title, children, setActiveItem, activeItem, description}) {
+export const DevelopItem = ({title, children, setActiveItem, activeItem, description}) => {
 	const expanded = activeItem;
 
 	const cls = "develop-menu-item " + (expanded ? "item-active" : "item-inactive");
@@ -34,7 +34,7 @@ function DevelopItem({title, children, setActiveItem, activeItem, description}) 
   );
 }
 
-function SubDevelopItem({children, setActiveItem, activeItem, description}) {
+export const SubDevelopItem = ({children, setActiveItem, activeItem, description}) => {
 	const expanded2 = activeItem;
 
 	const cls = "sub-develop-menu-item " + (expanded2 ? "item-active" : "item-inactive");

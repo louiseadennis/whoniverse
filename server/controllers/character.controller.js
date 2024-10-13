@@ -94,7 +94,13 @@ const findOneWithIcons = async (req, res) => {
 	icon_data = await Character_Icon.getAllChar(req.body.id);
 
 	if (icon_data.message) {
-	    res.status(500).send(icon_data.message);
+	    if (icon_data.message == "no_icons") {
+		console.log("no icons");
+		res.status(200).send(data);
+	    } else {
+		console.log(icon_data.message);
+		res.status(500).send(icon_data.message);
+	    }
 	} else {
 	    data.icons = icon_data;
 
@@ -132,11 +138,11 @@ const update = async (req, res) => {
 		console.log(req.body.icons[i]);
 	    
 		icon_data = await Character_Icon.make_default(req.body.icons[i][2], req.body.character_id);
+		console.log(icon_data);
 		send_data(res, icon_data);
 	    }
 	}
     }
-    res.status(200).send(data);
 };
 
 /* const default_icon = (req, res) => {

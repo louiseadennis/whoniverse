@@ -13,6 +13,9 @@ export const NavBar = (props) => {
 	    <li>
 	      <button className="nav-button" onClick={() => props.onPageChange('develop')}>Develop</button>
 	    </li>
+		<li>
+	      <button className="nav-button" onClick={() => props.onPageChange('test')}>Test</button>
+	    </li>
 	    <li>
 	      <button className="nav-button" onClick={props.handleLogoutClick}>Log Out</button>
 	    </li>

@@ -3,6 +3,7 @@ import { NavBar} from "./navbar";
 import { Location } from "./location";
 import { Profile } from "./profile";
 import { Develop } from "./develop";
+import { Test } from "./test";
 
 export const Home = (props) => {
     const [currentPage, setCurrentPage] = useState('current_page');
@@ -23,7 +24,8 @@ export const Home = (props) => {
         {
           'location': <Location user={props.user}  />,
           'profile': <Profile user={props.user} />,
-          'develop': <Develop changePage = {changePage}/>
+          'develop': <Develop changePage = {changePage}/>,
+          'test' : <Test changePage = {changePage} />
         }[currentPage] || < Location  user={props.user} />
       }
 	</div>
