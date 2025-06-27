@@ -7,19 +7,6 @@ const Location = function(location) {
     this.picture = location.picture;
 }
 
-/* Location.create = (newLocation, result) => {
-    sql.query('INSERT INTO locations (name, description, picture) VALUES (?, ?, ?)', [newLocation.name, newLocation.description, newLocation.picture], function(err, res, fields)  {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
-
-    console.log("created Location: ", { id: res.insertId, ...newLocation });
-    result(null, { id: res.insertId, ...newLocation });
-  });
-}; */
-
 Location.findById = async (id) => {
     if (id === undefined) {
 	console.log("Location ID undefined");
@@ -72,23 +59,5 @@ Location.updateById = async (id, location) => {
     }
 };
 
-/* Location.remove = (id, result) => {
-  sql.query("DELETE FROM locations WHERE id = ?", id, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(null, err);
-      return;
-    }
-
-    if (res.affectedRows == 0) {
-      // not found Location with the id
-      result({ kind: "not_found" }, null);
-      return;
-    }
-
-    console.log("deleted location with id: ", id);
-    result(null, res);
-  });
-};*/
 
 module.exports = Location;

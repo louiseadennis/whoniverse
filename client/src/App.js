@@ -35,6 +35,14 @@ function App() {
 	setLoggedIn(false);
     }
 
+
+    if (! user) {
+	setUser( new User("no_user_here_at_all") );
+	saveUserName( "no_user_here_at_all" );
+	saveLoggedOut();
+	setLoggedIn(false);
+    }
+    
     return (
 	    <div className="App">
 	    {loggedin ? <Home handleLogoutClick={handleLogoutClick} user={user} pov={user.getPOV()}/> :

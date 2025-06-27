@@ -1,23 +1,49 @@
 import React, { useState, useEffect } from "react";
 import { ShowLocation } from "./show_location";
 import { ShowTardis } from "./show_tardis";
+import { ShowCharacterIP } from "../character/show_character_in_play.js";
+import { MoveCharacter } from "../character/show_move_character.js";
 
 export const ShowLocationState = (props) => {
-    console.log("entered show location STATE");
-    console.log(props.id);
     const [loading, setLoading ] = useState(1);
+    const [message, setMessage ] = useState("");
+    const [charactersInPlay, setCharactersInPlay] = useState([]);
+    const [tardis, setTardis ] = useState(0);
+
     const id = props.id;
     const user = props.user;
-    console.log(id);
-    user.getTardisLocation();
-    const tardis = user.tardis_location == id;
-//    const tardis = 0;
 
-    // Not sure why I'm doing this...
+    const characters_in_play = (character_list) => character_list.map((d) => <div>
+		              {d[2] === id ? <div><ShowCharacterIP id = {d[0]}/>
+			       <MoveCharacter accessible_from_this_location = {accessible_from_this_location}
+			       character={d[0]}
+			       user = {user}
+			       set_characters = {set_characters}
+			       side_effect = {move_side_effect} />
+			       </div>: <div></div>}
+								      </div>);
+
+    const accessible_from_this_location = (character_id) => {
+	const accessible_list = [];
+	accessible_list.push(<option value="-1">No Move</option>);
+	if (tardis === id) {
+	    accessible_list.push(<option value="0">Enter Tardis</option>);
+	}
+	return accessible_list;
+    }
+
+    const move_side_effect = (location_id) => {
+    }
+
+    const set_characters = async () => {
+	await user.getCharactersInPlay();
+	setCharactersInPlay(user.characters_in_play);
+    }
+
     useEffect(() => {
 	if (id !== 0) {
-	    console.log("id not zero");
-	    console.log(id);
+	    //console.log("id not zero");
+	    //console.log(id);
 	    const fetchData = async () => {
 		try {
 		    let res = await fetch("/locations/get_state", {
@@ -32,34 +58,55 @@ export const ShowLocationState = (props) => {
 		    });
 		    let resJson = await res.json();
 		    if (res.status === 200) {
-			console.log("got location state");
-			console.log(resJson);
-			let location_id = resJson.location_id;
-			setLoading(false);
+			//console.log("got location state");
+			//console.log(resJson);
+			// let location_id = resJson.location_id;
+			setLoading(0);
 		    }
+		    setMessage(resJson.messageq);
 		} catch (err) {
-		    console.log(err);
+		    //console.log(err);
+		    setMessage(err.toString());
 		}
 	    }
 
-	    fetchData().catch(console.error);
+	    const get_characters_in_play = async () => {
+		await user.getCharactersInPlay();
+		setCharactersInPlay(user.characters_in_play);
+	    }
+
+	    const get_tardis_location = async () => {
+		if (user.tardis_location) {
+		    setTardis(user.tardis_location);
+		} else {
+		    const res = await user.getTardisLocation();
+		    setTardis(res);
+		}
+	    } 
+	    
+	    fetchData();
+	    get_characters_in_play();
+	    get_tardis_location();
 	}
-    }, []);
+    }, [id, user]);
 
     if (loading) {
 	return (
 		<div>
-		<p>Please Reload</p>
+		<p>Loading Show Location State... </p>
+		<p>{id}</p>
+		<p>{user.user_id}</p>
+		<p>{message}</p>
 		</div>
 	);
     } else {
 	return (
 	    <div>
 		<ShowLocation id={id} />
-		{ tardis ? <ShowTardis user={user}/> : <p>The Tardis is not Here</p>} 
-	    </div>
+		<p>Characters in Play: <div className="thumbnails-center">{characters_in_play(charactersInPlay)}</div></p>
+		{ tardis === id ? <ShowTardis user={user} characters={user.characters_in_tardis} location_update={set_characters}/> : <p>The Tardis is not Here</p>}
+	   </div>
 	);
     }
 
-//	 		{ tardis ? <ShowTardis user={user}/> : <p>The Tardis is not Here</p>} 
 }

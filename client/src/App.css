@@ -162,6 +162,14 @@ button {
     flex-wrap:wrap;
 }
 
+.thumbnails-center {
+    display: flex;
+    flex-direction: row;
+    flex-wrap:wrap;
+    text-align: center;
+    justify-content: center;
+}
+
 .tardis {
   border: 1px solid #CCC;
   background-color: #003b6f;

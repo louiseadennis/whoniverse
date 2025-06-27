@@ -65,6 +65,13 @@ const findAllDefault = async (req, res) => {
     send_data(res, data);
 };
 
+const findAllLocation = async(location_id) => {
+    console.log("calling character find all location");
+
+    data = await Character.getAllLocation(location_id);
+    return data;
+};
+
 
 /* const findOne = (req, res) => {
   Character.findById(req.body.id, (err, data) => {
@@ -195,4 +202,4 @@ exports.delete = (req, res) => {
 */
 
 
-module.exports = {  findAllDefault, findOneWithIcons, update }
+module.exports = {  findAllDefault, findOneWithIcons, update, findAllLocation}

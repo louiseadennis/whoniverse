@@ -9,7 +9,7 @@ export const ShowCharacterIP = (props) => {
     useEffect(() => {
 	const fetchData = async () => {
 	    try {
-		console.log("use effect in characters in play running");
+		// console.log("use effect in characters in play running");
 		let res = await fetch("/characters_in_play/get_char", {
 		    method: "POST",
 		    body: JSON.stringify({
@@ -25,7 +25,7 @@ export const ShowCharacterIP = (props) => {
 		    console.log(resJson.name);
 		    console.log(resJson.picture);
 		    let character = new CharacterIP(resJson);
-		    console.log("setting character");
+		    // console.log("setting character");
 		    setCharacter(character);
 		}
 	    } catch (err) {
@@ -38,19 +38,15 @@ export const ShowCharacterIP = (props) => {
     }, [id])
 
     const picture_string = (string) => {
-                console.log(string);
+//                console.log(string);
         return "/assets/characters/" + string;
     }
 
 
     return (
          <div>
-	    <div>
-	    <b>{character.name}</b>
-	    </div>
-	    <div>
-	    <img src={picture_string(character.picture)} width="100"/>
-	    </div>
+	    <p><b>{character.name}</b></p>
+	    <img src={picture_string(character.picture)} width="100"/>&nbsp;
         </div>
     );
 }

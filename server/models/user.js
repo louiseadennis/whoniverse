@@ -24,8 +24,8 @@ User.create = async (newUser) => {
 	} else {
 	    try {
 		const [rows, fields] = await sql.query('INSERT into accounts (username, email, password) VALUES (?, ?, ?)', [newUser.username, newUser.email, newUser.password]);
-		console.log("created user: ", {id: res.insertID, ...newUser });
-		return({id: res.insertId, ...newUser });
+		console.log("created user: ", rows);
+		return({id: rows.insertId, ...newUser });
 	    } catch (err) {
 		return({message: err});
 	    }
@@ -38,24 +38,24 @@ User.create = async (newUser) => {
 User.findByUsername = async (username) => {
     console.log("entered find by username");
     try {
-	const [rows, fields] = await sql.query(`SELECT * FROM accounts WHERE username = '${username}'`);
+	const [rows, fields] = await sql.query(`SELECT accounts.*, locations.name, locations.description  FROM accounts LEFT JOIN locations ON accounts.pov = locations.id WHERE username = '${username}'`);
 
 	if (rows.length > 0) {
 	    return rows[0];
 	} else {
+	    console.log("user not found");
 	    return({message:"user not found"});
 	}
     } catch (err) {
+	console.log(err);
 	return({message: err});
     }
 };
 
-// I'm pretty sure this is a function from username, password, result to void.
-// Result is a function with arguments (err, data).
 User.auth = async (username, password) => {
     console.log("entered user model auth");
     try {
-	const sql_query = `SELECT * FROM accounts WHERE username = '${username}' AND password = '${password}'`;
+	const sql_query = `SELECT accounts.*, locations.name, locations.description  FROM accounts LEFT JOIN locations ON accounts.pov = locations.id WHERE username = '${username}' AND password = '${password}'`;
 	console.log(sql_query);
 	const [rows, fields] = await sql.query(sql_query);
 	console.log(rows[0]);
@@ -76,23 +76,5 @@ User.auth = async (username, password) => {
 
 };
 
-/* User.findById = (id, result) => {
-  sql.query(`SELECT * FROM accounts WHERE id = ${id}`, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
-
-    if (res.length) {
-      console.log("found user: ", res[0]);
-      result(null, res[0]);
-      return;
-    }
-
-    // not found User with the id
-    result({ kind: "not_found" }, null);
-  });
-}; */
 
 module.exports = User;

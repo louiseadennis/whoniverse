@@ -1,37 +1,35 @@
-import { Component } from "react";
+import { Component, useState, useEffect } from "react";
 import { ShowLocationState } from "./location/show_location_state";
 
-export class Location extends Component {
+export const Location = (props) => {
+	const [loading, setLoading] = useState(1);
+	const [pov, setPov] = useState(0);
+	const [message, setMessage] = useState("");
+	const user = props.user;
 
-	constructor(props) {
-	    super(props);
-		this.state = {loading : true}
-		console.log("location constructor")
-	    this.user = props.user;
-	}
+	useEffect(() => {
+		const getPOV = async () => {
+			const res = await user.getPOV();
+			setPov(res);
+			setLoading(0);
+		}
+		
+		if (user.username !== undefined) {
+			getPOV();
+		} else {
+			setLoading(1);
+			setMessage("no username");
+		}
+	}, []);
 
-	componentDidMount() {
-		this.user.getPOV().then((res) => {
-			console.log(res);
-			this.pov = res;
-			console.log("setting pov");
-			console.log(this.pov);
-			this.setState({loading: false});
-			}
-		);
-	}
-
-	render() {
-		console.log("are we loading?");
-		console.log(this.state.loading);
-		return (
+	return (
 		<div className="Page">
 		<h2>Location</h2>
-		{ this.state.loading ? 
-			<span>Loading ...</span> :
-			    <ShowLocationState id={this.pov} user={this.user}/>
+		{ loading ? <span>Loading ... </span> :
+			<ShowLocationState id={pov} user={user}/>
 		}
+		<div>{message}</div>
 		</div>
-		)
-	}	
+	);	
 }
+//<ShowLocationState id={pov} user={user}/> 
