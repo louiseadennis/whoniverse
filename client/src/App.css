@@ -173,5 +173,21 @@ button {
 .tardis {
   border: 1px solid #CCC;
   background-color: #003b6f;
+    display: flex;
+    text-align: center;
   color: white;
+  flex-direction: column;
+  align-items:center;
+}
+
+.tardis-interior {
+    display: flex;
+  align-items:center;
+}
+
+.move-character-form button {
+    padding:5px;
+}
+
+.console {
 }

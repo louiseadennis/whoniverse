@@ -12,6 +12,7 @@ export const ShowLocationState = (props) => {
 
     const id = props.id;
     const user = props.user;
+    const changePov = props.changePov;
 
     const characters_in_play = (character_list) => character_list.map((d) => <div>
 		              {d[2] === id ? <div><ShowCharacterIP id = {d[0]}/>
@@ -33,6 +34,9 @@ export const ShowLocationState = (props) => {
     }
 
     const move_side_effect = (location_id) => {
+	if (location_id === "0") {
+//	    setMessage("entered tardis");
+	}
     }
 
     const set_characters = async () => {
@@ -42,9 +46,7 @@ export const ShowLocationState = (props) => {
 
     useEffect(() => {
 	if (id !== 0) {
-	    //console.log("id not zero");
-	    //console.log(id);
-	    const fetchData = async () => {
+	   const fetchData = async () => {
 		try {
 		    let res = await fetch("/locations/get_state", {
 			method: "POST",
@@ -58,12 +60,9 @@ export const ShowLocationState = (props) => {
 		    });
 		    let resJson = await res.json();
 		    if (res.status === 200) {
-			//console.log("got location state");
-			//console.log(resJson);
-			// let location_id = resJson.location_id;
 			setLoading(0);
 		    }
-		    setMessage(resJson.messageq);
+		    setMessage(resJson.message);
 		} catch (err) {
 		    //console.log(err);
 		    setMessage(err.toString());
@@ -76,19 +75,15 @@ export const ShowLocationState = (props) => {
 	    }
 
 	    const get_tardis_location = async () => {
-		if (user.tardis_location) {
-		    setTardis(user.tardis_location);
-		} else {
-		    const res = await user.getTardisLocation();
-		    setTardis(res);
-		}
+		const res = await user.getTardisLocation();
+		setTardis(res);
 	    } 
 	    
 	    fetchData();
 	    get_characters_in_play();
 	    get_tardis_location();
 	}
-    }, [id, user]);
+    }, [id]);
 
     if (loading) {
 	return (
@@ -103,8 +98,8 @@ export const ShowLocationState = (props) => {
 	return (
 	    <div>
 		<ShowLocation id={id} />
-		<p>Characters in Play: <div className="thumbnails-center">{characters_in_play(charactersInPlay)}</div></p>
-		{ tardis === id ? <ShowTardis user={user} characters={user.characters_in_tardis} location_update={set_characters}/> : <p>The Tardis is not Here</p>}
+		<p>{message} Characters in Play: <div className="thumbnails-center">{characters_in_play(charactersInPlay)}</div></p>
+		{ tardis === id ? <ShowTardis user={user} characters={user.characters_in_tardis} location_update={set_characters} move={changePov}/> : <p>The Tardis is not Here</p>}
 	   </div>
 	);
     }

@@ -27,6 +27,7 @@ app.use('/characters', require('./routes/characters'));
 app.use('/characters_in_play', require('./routes/characters_in_play'));
 app.use('/character_icons', require('./routes/character_icons'));
 app.use('/locations_in_play', require('./routes/locations_in_play'));
+app.use('/tardis', require('./routes/tardis'));
 
 
 // Finally, our Node.js server needs to listen on a port, so for testing purposes, we can use port 3001.

@@ -83,6 +83,13 @@ const getAll = async (req, res) => {
     send_data(res, data);
 }
 
+const get_names_locations = async (req, res) => {
+    console.log("getting character names and locations");
+    data = {};
+    character_data = await Character_In_Play.getAllNamesLocations(req.body.user_id);
+    send_data(res, character_data);
+}
+
 const change_location = async (req, res) => {
     console.log("character in play controller: change location");
     console.log(req.body);
@@ -92,4 +99,4 @@ const change_location = async (req, res) => {
     send_data(res, data);
 }
 
-module.exports = { findOneWithIcons, getAll, create, create_args, change_location }
+module.exports = { findOneWithIcons, getAll, create, create_args, change_location, get_names_locations }

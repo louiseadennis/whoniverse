@@ -7,7 +7,22 @@ const send_data = (res, data) => {
     } else {
 	res.status(200).send(data);
     }
+
 }
+
+const create = async (req, res) => {
+    // Validate Request
+    if (!req.body) {
+	res.status(400).send({
+	    message: "Content can not be empty!"
+	});
+    }
+
+    data = await Location.create(new Location(req.body));
+
+    send_data(res, data);
+
+};
 
 // Retrieve all Locations from the database (with condition).
 const findAll = async (req, res) => {
@@ -17,11 +32,19 @@ const findAll = async (req, res) => {
 
 };
 
+const findAllIds = async (req, res) => {
+
+    data = await Location.getAllIds();
+    console.log(data);
+    send_data(res, data);
+
+};
+
 // Find a single Location by Id
 const findOne = async (req, res) => {
     console.log("entered locations findOne " + req.body.id);
     data = await Location.findById(req.body.id);
-    console.log(data);
+//    console.log(data);
 
     send_data(res, data);
 };
@@ -31,7 +54,7 @@ const findOne = async (req, res) => {
 const findOneState = async (req, res) => {
     console.log("entered locations findOneState");
     data = await LocationState.findById(req.body.id, req.body.user_id);
-    console.log(data);
+//    console.log(data);
 
     send_data(res, data);
 };
@@ -52,6 +75,6 @@ const update = async (req, res) => {
 };
 
 
-module.exports = { findOne, findAll, update, findOneState };
+module.exports = { findOne, findAll, update, findOneState, create, findAllIds };
 
 

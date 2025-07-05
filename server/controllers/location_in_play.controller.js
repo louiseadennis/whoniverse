@@ -54,6 +54,12 @@ const create_args = async (location_id, user_id) => {
     }
 
 
-} 
+}
+
+const change_pov = async (req, res) => {
+    data = await Location_in_Play.change_pov(req.body.location_id, req.body.user_id);
+    send_data(res, data);
+
+}
     
-module.exports = { create, create_args }
+module.exports = { create, create_args, change_pov }

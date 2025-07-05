@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { ShowCharacterIP } from "../character/show_character_in_play.js";
 import { MoveCharacter } from "../character/show_move_character.js";
+import { FlyTardis } from "./fly_tardis.js";
 
 export const ShowTardis = (props) => {
     const [charactersInTardis, setCharactersInTardis] = useState(props.characters);
-    const [count, setCount ] = useState(0);
+//    const [count, setCount ] = useState(0);
 
     const user = props.user;
     const location_update = props.location_update;
+    const move = props.move;
 
     const characters_in_tardis = (character_list) => character_list.map((d) => <div>
 				{<div><ShowCharacterIP id = {d[0]}/>
@@ -22,7 +24,6 @@ export const ShowTardis = (props) => {
     const set_characters = async () => {
 	await user.getTardisLocation();
 	setCharactersInTardis(user.characters_in_tardis);
-	setCount(count + 1);
     }
 
     const move_side_effects = (location_id) => {
@@ -39,21 +40,35 @@ export const ShowTardis = (props) => {
     useEffect(() => {
 	const fetchData = async () => {
 	    await user.getTardisLocation();
-	    setCharactersInTardis(user.characters_in_tardis);
+	    let same = false;
+	    if (charactersInTardis.length === user.characters_in_tardis.length) {
+		if (charactersInTardis.every((el, i) => user.characters_in_tardis[i][0] === el[0])) {
+		    same = true;
+		}
+	    }
+	    if (!same) {
+		setCharactersInTardis(user.characters_in_tardis);
+	    } 
 	}
 
 	fetchData();
-    }, [user, count, charactersInTardis])
+    })
 
-    return (
-         <div>
-	    <div className="tardis">
-	    <h2>Tardis</h2>
-	    Tardis ID: {user.tardis_id} {count}
-	    <p>Characters In Tardis: <div className="thumbnails-center">{characters_in_tardis(charactersInTardis)}</div></p>
-	    </div>
-        </div>
-    );
+	return (
+		<div className="tardis">
+		<h2>Tardis</h2>
+		<div className="tardis-interior">
+		   <div>
+		      Tardis ID: {user.tardis_id} 
+		      <p>Characters In Tardis: <div className="thumbnails-center">{characters_in_tardis(charactersInTardis)}</div></p>
+		   </div>
+		<div className="console">
+		<FlyTardis move={move} user={user}  />
+		</div>
+		</div>
+		</div>
+
+	);
 }
 
 

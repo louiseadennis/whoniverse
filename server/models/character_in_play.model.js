@@ -59,6 +59,19 @@ Character_In_Play.getAll = async (user_id) => {
     }
 };
 
+Character_In_Play.getAllNamesLocations = async (user_id) => {
+//    console.log("entered get all " + user_id);
+    try {
+	const [rows, fields] = await sql.query(`SELECT * from characters_in_play WHERE user_id = ${user_id}`);
+//	console.log("rows from getAll sql query:");
+//	console.log(rows);
+	return rows;
+    } catch (err) {
+	console.log("error: ", err);
+	return({message: err});
+    }
+};
+
 Character_In_Play.uniqueness_check = async (char_id, user_id) => {
     console.log("character in play uniqueness check");
     try {

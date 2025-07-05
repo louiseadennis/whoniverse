@@ -37,7 +37,7 @@ export const ShowLocation = (props) => {
 	    }
 	}
 
-	console.log("fetching data in show location");
+	//console.log("fetching data in show location");
 
 	fetchData()
 	    .catch(console.error);

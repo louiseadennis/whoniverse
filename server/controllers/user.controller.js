@@ -89,8 +89,9 @@ const auth = async (req, res) => {
 
 // Find a single User by username
 const findOne = async (req, res) => {
+    console.log("entered user controller find One with username " + req.body.username);
     const data = await User.findByUsername(req.body.username);
-    console.log(data);
+//    console.log(data);
     if (data.message) {
 	res.status(500).send(data);
     } else {

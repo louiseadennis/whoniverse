@@ -16,7 +16,7 @@ export class User {
     }
 
     async getPOV() {
-	if (! this.POV) {
+//	if (! this.POV) {
 	    if (this.username !== "no_user_here_at_all") {
 		try {
                     let res = await fetch("/auth/get_user", {
@@ -33,7 +33,6 @@ export class User {
                         this.POV = resJson.pov;
 			this.user_id = resJson.id;
 			this.location_name = resJson.name;
-                        //console.log("setting user pov");
 			return this.POV;
                     } else {
                         return 0;
@@ -45,16 +44,15 @@ export class User {
 	    } else {
 		return 0;
 	    }
-	} else {
-	    console.log(this.POV);
-	    return this.POV;
-	}
+//	} else {
+//	    console.log(this.POV);
+//	    return this.POV;
+//	}
 
     }
 
+
     async getTardisLocation() {
-	console.log("getting tardis location");
-	console.log(this.user_id);
 	if (this.user_id !== "undefined") {
 		try {
                     let res = await fetch("/auth/get_tardis", {
@@ -66,12 +64,12 @@ export class User {
 			    'Content-type': 'application/json; charset=UTF-8',
 			},
 		    });
-		    console.log("awaiting tardis call");
+//		    console.log("awaiting tardis call");
 		    let resJson = await res.json();
-		    console.log("got result");
+//		    console.log("got result");
 		    if (res.status === 200) {
-                        console.log("called tardis");
-			console.log(resJson);
+  //                      console.log("called tardis");
+//			console.log(resJson);
                         this.tardis_id = resJson.id;
 			this.tardis_location = resJson.location_id;
 			this.characters_in_tardis = [];
@@ -117,28 +115,7 @@ export class User {
 
 			let location_name = "None";
 			
-			//if (location_id != 0) {
-			//    let location_res = await fetch("/locations", {
-			//	method: "POST",
-			//	body: JSON.stringify({
-			///	    id: location_id,
-			//	}),
-			//	headers: {
-			//	    'Content-type': 'application/json; charset=UTF-8',
-			//	},
-			//    });
-
-			//    let locJson = await location_res.json(); 
-			//    if (location_res.status === 200) {
-			//	location_name = locJson.name;
-			//    } 
-
-			//} else {
-			//    location_name = "Tardis";
-			//}
-
 			this.characters_in_play.push([resJson.characters[i].id, resJson.characters[i].picture, location_id, location_name]);
-			//this.rationalise_characters_in_play();
 		    }
 
 		    for (var c in this.characters_in_play) {

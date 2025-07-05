@@ -18,25 +18,26 @@ export const MoveCharacter = (props) => {
     const handleCharLocationChangeSubmit = async (e) => {
         e.preventDefault();
         // setMessage("Called Char Location Change");
-        try {
+	if (location_to_move !== "-1") {
+            try {
                 await fetch("/characters_in_play/change_location", {
-                method: "POST",
-                body: JSON.stringify({
-                    char_id: char_to_move,
-                    location_id: location_to_move
-                }),
-                headers: {
-                    'Content-type': 'application/json; charset=UTF-8',
-                },
-            });
-            // await res.json();
-	    set_characters();
-	    side_effects(location_to_move);
-	    setLocation_to_move("-1");
+                    method: "POST",
+                    body: JSON.stringify({
+			char_id: char_to_move,
+			location_id: location_to_move
+                    }),
+                    headers: {
+			'Content-type': 'application/json; charset=UTF-8',
+                    },
+		});
+		set_characters();
+		side_effects(location_to_move);
+		setLocation_to_move("-1");
 	    
-        } catch (err) {
-            console.log(err);
-        }
+            } catch (err) {
+		console.log(err);
+            }
+	}
     }
 
 

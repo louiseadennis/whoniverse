@@ -1,4 +1,4 @@
-import { Component, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { ShowLocationState } from "./location/show_location_state";
 
 export const Location = (props) => {
@@ -12,24 +12,25 @@ export const Location = (props) => {
 			const res = await user.getPOV();
 			setPov(res);
 			setLoading(0);
+			return res;
 		}
 		
 		if (user.username !== undefined) {
-			getPOV();
+			getPOV();			
 		} else {
 			setLoading(1);
 			setMessage("no username");
 		}
-	}, []);
+	}, [user, pov]);
 
 	return (
 		<div className="Page">
 		<h2>Location</h2>
 		{ loading ? <span>Loading ... </span> :
-			<ShowLocationState id={pov} user={user}/>
+			<ShowLocationState id={pov} user={user} changePov={setPov}/>
 		}
-		<div>{message}</div>
+		<h2>Debug Info</h2>
+		<div>{message}</div><div>{pov}</div>
 		</div>
 	);	
 }
-//<ShowLocationState id={pov} user={user}/> 

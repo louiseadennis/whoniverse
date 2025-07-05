@@ -4,5 +4,7 @@ var router = require("express").Router();
 
 router.post('/create', locations_in_play.create);
 
+router.post('/change_pov', locations_in_play.change_pov);
+
 module.exports = router;
 

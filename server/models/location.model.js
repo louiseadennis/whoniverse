@@ -32,7 +32,21 @@ Location.getAll = async () => {
     try {
 	let query = "SELECT * FROM locations";
 	const [rows, fields] = await sql.query(`SELECT * FROM locations`);
-	console.log(rows);
+//	console.log(rows);
+	return rows;
+    } catch (err) {
+	return({message: err});
+    }
+};
+
+
+Location.getAllIds = async () => {
+    console.log("entered Location get all");
+
+    try {
+	// let query = "SELECT id FROM locations";
+	const [rows, fields] = await sql.query(`SELECT id FROM locations`);
+//	console.log(rows);
 	return rows;
     } catch (err) {
 	return({message: err});
@@ -58,6 +72,19 @@ Location.updateById = async (id, location) => {
 	return({message: err});
     }
 };
+
+Location.create = async (location) => {
+    console.log("creating location");
+    console.log(location);
+
+    try {
+	const [result, fields] = await sql.query("INSERT INTO locations (name, description, picture) VALUES (?, ?, ?)", [location.name, location.description, location.picture]);
+	return({message:"success?"});
+    } catch (err) {
+	console.log(err);
+	return({message: err});
+    }
+}
 
 
 module.exports = Location;

@@ -56,5 +56,18 @@ LocationState.uniqueness_check = async (location_id, user_id) => {
     }
 }
 
+LocationState.change_pov = async (location_id, user_id) => {
+    try {
+    	const [rows2, fields2] = await sql.query(`UPDATE accounts SET pov=${location_id} WHERE id = ${user_id}`);
+	console.log(rows2);
+	return rows2;
+    } catch (err) {
+	console.log(err);
+	return({message: err});
+    }
+
+}
+
+
 
 module.exports = LocationState;

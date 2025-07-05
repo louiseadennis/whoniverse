@@ -10,19 +10,19 @@ export const AddLocation = () => {
 	e.preventDefault();
 	try {
 	    console.log(location_name);
-	    let res = await fetch("/add_location", {
+	    let res = await fetch("/locations/add_location", {
 		method: "POST",
 		body: JSON.stringify({
-		    location_name: location_name,
+		    name: location_name,
 		    description: description,
-		    image_name: image_name,
+		    picture: image_name,
 		}),
 		headers: {
 		    'Content-type': 'application/json; charset=UTF-8',
 		},
 	    });
 	    let resJson = await res.json();
-	    if (res.status == 200) {
+	    if (res.status === 200) {
 		setLocationName("");
 		setDescription("");
 		setImageName("");
