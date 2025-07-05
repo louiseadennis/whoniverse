@@ -1,6 +1,7 @@
 const Character_In_Play = require("../models/character_in_play.model.js");
 const BaseCharacter = require("../models/character.model.js");
 const CharacterIcons = require("../models/character_icon.js");
+const Tardis = require("../models/tardis_model.js");
 
 const send_data = (res, data) => {
     if (data.message) {
@@ -84,9 +85,19 @@ const getAll = async (req, res) => {
 }
 
 const get_names_locations = async (req, res) => {
-    console.log("getting character names and locations");
+    console.log("getting character names and locations " + req.body.user_id);
+    tardis_data = {};
+    tardis_data = await Tardis.findByUserID(req.body.user_id);
+    const tardis_location = tardis_data.location_id;
     data = {};
     character_data = await Character_In_Play.getAllNamesLocations(req.body.user_id);
+    console.log(character_data);
+    for (char of character_data) {
+	if (char.location_id === 0) {
+	    console.log(char.name);
+	    char.location_id = tardis_location;
+	}
+    }
     send_data(res, character_data);
 }
 

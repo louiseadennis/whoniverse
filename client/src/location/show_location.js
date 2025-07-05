@@ -47,11 +47,13 @@ export const ShowLocation = (props) => {
 	return (
 	    <div>
 	    <h2>{location.name}</h2>
-	    <img src={location.picture_string} />
-	    {HTMLReactParser ( location.description )}
+		<img src={location.picture_string} alt="Location (Sorry!)" />
+		<p>{message}</p>
+		{HTMLReactParser ( location.description )}
 		</div> );
+
     } else {
 	return(<div><p>Loading...</p></div>);
     }
-//	    <p>{message}</p>
+
 }

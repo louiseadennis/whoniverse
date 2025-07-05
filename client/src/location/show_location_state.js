@@ -3,6 +3,7 @@ import { ShowLocation } from "./show_location";
 import { ShowTardis } from "./show_tardis";
 import { ShowCharacterIP } from "../character/show_character_in_play.js";
 import { MoveCharacter } from "../character/show_move_character.js";
+import { ChangePov } from "../location/change_pov.js";
 
 export const ShowLocationState = (props) => {
     const [loading, setLoading ] = useState(1);
@@ -83,7 +84,7 @@ export const ShowLocationState = (props) => {
 	    get_characters_in_play();
 	    get_tardis_location();
 	}
-    }, [id]);
+    }, [id,user]);
 
     if (loading) {
 	return (
@@ -99,6 +100,7 @@ export const ShowLocationState = (props) => {
 	    <div>
 		<ShowLocation id={id} />
 		<p>{message} Characters in Play: <div className="thumbnails-center">{characters_in_play(charactersInPlay)}</div></p>
+		<ChangePov user={user} change_pov={changePov} />
 		{ tardis === id ? <ShowTardis user={user} characters={user.characters_in_tardis} location_update={set_characters} move={changePov}/> : <p>The Tardis is not Here</p>}
 	   </div>
 	);

@@ -62,7 +62,7 @@ Character_In_Play.getAll = async (user_id) => {
 Character_In_Play.getAllNamesLocations = async (user_id) => {
 //    console.log("entered get all " + user_id);
     try {
-	const [rows, fields] = await sql.query(`SELECT * from characters_in_play WHERE user_id = ${user_id}`);
+	const [rows, fields] = await sql.query(`SELECT name, location_id from characters_in_play LEFT JOIN characters ON characters_in_play.char_id = characters.char_id WHERE user_id = ${user_id}`);
 //	console.log("rows from getAll sql query:");
 //	console.log(rows);
 	return rows;

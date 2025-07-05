@@ -120,7 +120,7 @@ export class User {
 
 		    for (var c in this.characters_in_play) {
 			let location_name = "None";
-			if (c[2] != 0) {
+			if (c[2] !== 0) {
 			    let location_res = await fetch("/locations", {
 				method: "POST",
 				body: JSON.stringify({
@@ -151,7 +151,6 @@ export class User {
 	//	this.characters_in_play = [];
 		return("error");
 	    }
-	    return("help");
 	} else {
 //	    this.characters_in_play = [];
 	    return "user_id undefined";
