@@ -52,7 +52,7 @@ export const ShowStory = (props) => {
 		</div> );
 
     } else {
-	return(<div><p>Loading...</p></div>);
+	return(<div><p>Loading... {props.id}</p></div>);
     }
 
 }

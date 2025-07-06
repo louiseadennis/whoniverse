@@ -4,12 +4,14 @@ import { ShowTardis } from "./show_tardis";
 import { ShowCharacterIP } from "../character/show_character_in_play.js";
 import { MoveCharacter } from "../character/show_move_character.js";
 import { ChangePov } from "../location/change_pov.js";
+import { ShowStory } from "../story/show_story";
 
 export const ShowLocationState = (props) => {
     const [loading, setLoading ] = useState(1);
     const [message, setMessage ] = useState("");
     const [charactersInPlay, setCharactersInPlay] = useState([]);
     const [tardis, setTardis ] = useState(0);
+    const [story_starts_here, setStoryStartsHere ] = useState(0);
 
     const id = props.id;
     const user = props.user;
@@ -78,11 +80,29 @@ export const ShowLocationState = (props) => {
 	    const get_tardis_location = async () => {
 		const res = await user.getTardisLocation();
 		setTardis(res);
-	    } 
+	    }
+
+	    const get_stories = async () => {
+		let res = await fetch("/stories/get_starts", {
+		    method: "POST",
+		    body: JSON.stringify({
+			location_id: id,
+		    }),
+		    headers: {
+			    'Content-type': 'application/json; charset=UTF-8',
+			},
+		    });
+		    let resJson = await res.json();
+		    if (res.status === 200) {
+			setStoryStartsHere(resJson.story_id);
+		    }
+		    
+	    }
 	    
 	    fetchData();
 	    get_characters_in_play();
 	    get_tardis_location();
+	    get_stories();
 	}
     }, [id,user]);
 
@@ -97,8 +117,8 @@ export const ShowLocationState = (props) => {
 	);
     } else {
 	return (
-	    <div>
-		<ShowLocation id={id} />
+		<div>
+		<ShowLocation id={id} /> {story_starts_here !== 0 ? <ShowStory id={story_starts_here}/>: <p>No Story Starts Here</p>}
 		<div className="character-panel"><div className="panel-row"><div className="thumbnails-center"><p>{characters_in_play(charactersInPlay)}</p></div>	<ChangePov user={user} change_pov={changePov} /></div></div>
 		{ tardis === id ? <ShowTardis user={user} characters={user.characters_in_tardis} location_update={set_characters} move={changePov}/> : <p>The Tardis is not Here</p>}
 	   </div>

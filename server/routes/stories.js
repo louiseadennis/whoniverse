@@ -14,4 +14,6 @@ router.post('/get_story_thumbnails', story.findAll);
 
 router.post('/get_ids', story.findAllIds);
 
+router.post('/get_starts', story.getStarts);
+
 module.exports = router;

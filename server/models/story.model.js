@@ -85,5 +85,15 @@ Story.create = async (story) => {
     }
 }
 
+Story.getStarts = async (location_id) => {
+    console.log("get story starts");
+    try {
+	const [rows, fields] = await sql.query("Select story_id from story_start_locations WHERE location_id=?", [location_id]);
+	return rows[0];
+    } catch (err) {
+	console.log(err);
+	return({message: err});
+    }
+}
 
 module.exports = Story;

@@ -1,0 +1,5 @@
+CREATE TABLE `story_start_locations` ( `id` int NOT NULL AUTO_INCREMENT,
+     `story_id` int,
+     `location_id` int,
+     PRIMARY KEY (`id`)
+     );

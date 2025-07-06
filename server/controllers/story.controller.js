@@ -74,7 +74,20 @@ const update = async (req, res) => {
     send_data(res, data);
 };
 
+const getStarts = async (req, res) => {
+    console.log("Entered Story get Starts");
+    if (!req.body) {
+	res.status(400).send({
+	    message: "Content can not be empty!"
+	});
+    }
 
-module.exports = { findOne, findAll, update, findOneState, create, findAllIds };
+    data = await Story.getStarts(req.body.location_id);
+    console.log(data)
+    send_data(res,data);
+};
+
+
+module.exports = { findOne, findAll, update, findOneState, create, findAllIds, getStarts };
 
 
