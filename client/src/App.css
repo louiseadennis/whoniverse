@@ -185,6 +185,19 @@ button {
   align-items:center;
 }
 
+.character-panel {
+  border: 1px solid #CCC;
+    display: flex;
+    text-align: center;
+  flex-direction: column;
+  align-items:center;
+}
+
+.panel-row {
+    display: flex;
+  align-items:center;
+}
+
 .move-character-form button {
     padding:5px;
 }

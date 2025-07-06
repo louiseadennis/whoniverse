@@ -99,8 +99,7 @@ export const ShowLocationState = (props) => {
 	return (
 	    <div>
 		<ShowLocation id={id} />
-		<p>{message} Characters in Play: <div className="thumbnails-center">{characters_in_play(charactersInPlay)}</div></p>
-		<ChangePov user={user} change_pov={changePov} />
+		<div className="character-panel"><div className="panel-row"><div className="thumbnails-center"><p>{characters_in_play(charactersInPlay)}</p></div>	<ChangePov user={user} change_pov={changePov} /></div></div>
 		{ tardis === id ? <ShowTardis user={user} characters={user.characters_in_tardis} location_update={set_characters} move={changePov}/> : <p>The Tardis is not Here</p>}
 	   </div>
 	);
