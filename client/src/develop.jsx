@@ -7,6 +7,10 @@ import { ShowLocation } from "./location/show_location";
 import { ShowCharacter } from "./character/show_character";
 import { EditLocation } from "./location/edit_location";
 import { EditCharacter } from "./character/edit_character";
+import { StoryThumbnails } from "./story/story-thumbnails";
+import { AddStory } from "./story/add_story";
+import { ShowStory } from "./story/show_story";
+import { EditStory } from "./story/edit_story";
 
 export const DevelopItem = ({title, children, setActiveItem, activeItem, description}) => {
 	const expanded = activeItem;
@@ -76,9 +80,45 @@ export const Develop = (props) => {
 	const [showShowCharacter, setShowShowCharacter] = useState(0);
 	const [showEditCharacter, setShowEditCharacter] = useState(0);
 
-    return (
+ 	const [StoriesActive, setStoriesActive] = useState(0);
+	const [showStoryActive, setShowStoryActive] = useState(0);
+	const [editStoryActive, setEditStoryActive] = useState(0);
+	const [showAddStory, setShowAddStory] = useState(0);
+	const [showShowStory, setShowShowStory] = useState(0);
+    const [showEditStory, setShowEditStory] = useState(0);
+
+   return (
 	<div className="Page">
 	  <h2>Develop</h2>
+	  <DevelopItem
+	  	title="Stories"
+		setActiveItem={setStoriesActive}
+	    activeItem={StoriesActive}
+	    description="Add and Edit Stories"
+		><ul>
+	                <li><button onClick={() => {showAddStory ? setShowAddStory(0): setShowAddStory(1)}}>+Add Story</button></li>
+					{showAddStory? <AddStory /> : <p></p>}
+			<li><SubDevelopItem
+			  setActiveItem={setShowStoryActive}
+			  activeItem={showStoryActive}
+			  description="Show Stories"
+			  ><ul>
+			    <StoryThumbnails revealForm = {setShowShowStory} revealed={showShowStory}/>
+                          </ul>
+        			{showShowStory ? <ShowStory id={showShowStory} /> : <p></p>}
+					</SubDevelopItem></li>
+			<li><SubDevelopItem
+			  setActiveItem={setEditStoryActive}
+			  activeItem={editStoryActive}
+			  description="Edit Stories"
+			  ><ul>
+			    <StoryThumbnails revealForm = {setShowEditStory} revealed={showEditStory} />
+                          </ul>
+             			 {showEditStory ? <EditStory id={showEditStory} /> : <p></p>}
+						  </SubDevelopItem></li>
+			
+		</ul>
+	  </DevelopItem>
 	  <DevelopItem
 	  	title="Locations"
 		setActiveItem={setLocationsActive}
