@@ -95,13 +95,14 @@ export const ShowLocationState = (props) => {
 		    let resJson = await res.json();
 		    if (res.status === 200) {
 			setStoryStartsHere(resJson.story_id);
-		    }
+		    } 
 		    
 	    }
 	    
 	    fetchData();
 	    get_characters_in_play();
 	    get_tardis_location();
+	    setStoryStartsHere(0);
 	    get_stories();
 	}
     }, [id,user]);
