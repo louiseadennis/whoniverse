@@ -11,19 +11,44 @@ const send_data = (res, data) => {
 }
 
 const create = async (req, res) => {
+    //console.log("Story Controller create");
     // Validate Request
     if (!req.body) {
-	res.status(400).send({
+	data = {
 	    message: "Content can not be empty!"
-	});
-    }
+	};
+    } else {
 
-//    console.log("Story Controller create");
-    data = await Story.create(new Story(req.body));
+	data = await Story.create(new Story(req.body));
+    }
 
     send_data(res, data);
 
 };
+
+const create_story_state = async (req, res) => {
+    console.log("Story Controller create story state");
+    // Validate Request
+    if (!req.body) {
+	data = {
+	    message: "Content can not be empty!"
+	};
+    } else {
+	console.log(req.body);
+	data = await StoryState.create(req.body.story_id, req.body.user_id);
+    }
+
+    send_data(res, data);
+
+};
+
+const delete_story_state = async (req, res) => {
+    console.log("Story Controller delete");
+    console.log(req.body);
+    data = await StoryState.delete_state(req.body.user_id);
+
+    send_data(res, data);
+}
 
 // Retrieve all Stories from the database (with condition).
 const findAll = async (req, res) => {
@@ -110,6 +135,6 @@ const getStarts = async (req, res) => {
 };
 
 
-module.exports = { findOne, findAll, update, findOneState, create, findAllIds, getStarts };
+module.exports = { findOne, findAll, update, findOneState, create, findAllIds, getStarts, delete_story_state, create_story_state };
 
 

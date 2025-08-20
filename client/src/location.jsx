@@ -6,6 +6,7 @@ export const Location = (props) => {
 	const [pov, setPov] = useState(0);
 	const [message, setMessage] = useState("");
 	const [story, setStory ] = useState("No Current Adventure");
+	const [story_id, setStoryID ] = useState(0);
 
 	const user = props.user;
 
@@ -31,12 +32,20 @@ export const Location = (props) => {
 					}
 				});
 				let resJson = await res.json();
-				if (resJson.status === 200) {
+				if (res.status === 200) {
+					//setStory(resJson.id);
+						setStory(resJson.name);
+						setStoryID(resJson.story_id);
 						setMessage("res sucess");
 				} else {
-					setMessage(resJson.message.toString());
-					if (resJson.message.toString() === "no story") {
-						setStory("No Current Adventure");
+					if (resJson.message) {
+						setMessage(resJson.message.toString());
+						if (resJson.message.toString() === "no story") {
+							setStory("No Current Adventure");
+							setStoryID(0);
+						}
+					} else {
+						setMessage("unknown error");
 					}
 				}
 			//	setMessage("setting message")
@@ -58,14 +67,14 @@ export const Location = (props) => {
 			setLoading(1);
 			setMessage("no username");
 		}
-	}, [user, pov, loading]);
+	}, [user, pov, loading, story]);
 
 	return (
 		<div className="Page">
 		<div>{story}</div>
 		<h2>Location</h2>
 		{ loading ? <span>Loading ... </span> :
-			<ShowLocationState id={pov} user={user} changePov={setPov}/>
+			<ShowLocationState id={pov} user={user} changePov={setPov} story_id={story_id} setStory = {setStory}/>
 		}
 		<h2>Debug Info</h2>
 		<div>{message}</div><div>{pov}</div>
