@@ -41,13 +41,21 @@ export const ShowStory = (props) => {
 
 	fetchData()
 	    .catch(console.error);
-   }, [id])
+    }, [id])
+
+    const StartStopStory = async (e) => {
+	e.preventDefault();
+	setMessage("Clicked Start Stop Story");
+    }
+
 
     if (story.name) {
 	return (
 	    <div>
-	    <h2>{story.name}</h2>
-		<img src={story.picture_string} alt="Story (Sorry!)" />
+		<h2>{story.name}</h2>
+		<form className="start-stop-story-form" onSubmit={StartStopStory}>
+		<button><img src={story.picture_string} alt="Story (Sorry!)" /></button>
+		</form>
 		<p>{message}</p>
 		</div> );
 
