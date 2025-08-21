@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import HTMLReactParser from 'html-react-parser'; 
 import { Story } from "./story_class";
 
 export const ShowStory = (props) => {
@@ -7,16 +6,15 @@ export const ShowStory = (props) => {
     // This is this story which may or may not be related to the story in play
     const [story, setStory] = useState(new Story("none") );
     const [message, setMessage] = useState("No Message");
+    const [state_list, setStateList] = useState([]);
 
-    // This is sthe ID of any story that starts here
+    // This is the ID the story
     const id = props.id;
-    
-    // This is the ID for the current story in play
-    const [story_id, setStoryID ] = useState(props.story_id);
-    const [button_message, setButtonMessage] = useState("No Message");
-    const user_id = props.user.user_id;
-    const set_story_fn = props.set_story_fn;
 
+    const items = state_list.map((d) => 
+			   <div>{d.name} {d.type_marker === 1 ? "(Initial State)" : (d.type_marker === 2 ? "(End State)" : "" )}</div>);
+
+    
     useEffect(() => {
 	const fetchData = async () => {
 	    try {
@@ -33,14 +31,10 @@ export const ShowStory = (props) => {
 		});
 		let resJson = await res.json();
 		if (res.status === 200) {
-		    console.log(resJson);
+		    //console.log(resJson);
 		    let story = new Story(resJson);
-		    //story.debug = 1;
-		    //console.log(resJson.picture);
 		    setStory(story);
-		    //console.log(story.picture_string);
 		}  else {
-		    //console.log("wrong status");
 		    setMessage(resJson.message);
 		}
 	    } catch (err) {
@@ -48,84 +42,42 @@ export const ShowStory = (props) => {
 	    }
 	}
 
-	//console.log("fetching data in show story");
-
-	fetchData()
-	    .catch(console.error);
-	if (story_id === 0) {
-	    setButtonMessage("Start Adventure");
-	} else {
-	    setButtonMessage("Stop Adventure");
-	}
-    }, [id, story, button_message])
-
-    const StartStopStory = async (e) => {
-	e.preventDefault();
-//	setMessage("Clicked Start Stop Story");
-	try {
-
-	    if (story_id === 0) {
-		let res = await fetch("/stories/create_story_state", {
+	const getStoryStates = async () => {
+	    try {
+		let res = await fetch("/stories/get_states", {
 		    method: "POST",
 		    body: JSON.stringify({
 			story_id: id,
-			user_id: user_id,
 		    }),
 		    headers: {
 			'Content-type': 'application/json; charset=UTF-8',
-		    },		    
+		    },
 		});
 		let resJson = await res.json();
 		if (res.status === 200) {
-		    setStory(new Story(resJson));
-		    setMessage(resJson.story_id);
-		    setStoryID(resJson.story_id);
-		    set_story_fn(resJson.name);
-		    setButtonMessage("Stop Adventure");
+		    setStateList(resJson);
 		} else {
-		    setMessage("res status not 200");
+		    setMessage(resJson.message);
 		}
-	    } else {
-		if (id === story_id) {			 
-		    let res = await fetch("/stories/delete_story_state", {
-			method: "POST",
-			body: JSON.stringify({
-			    user_id: user_id
-			}),
-			headers: {
-			    'Content-type': 'application/json; charset=UTF-8',
-			},		    
-		    });
-		    await res.json();
-		    if (res.status === 200) {
-			setStory(new Story("none"));
-			setStoryID(0);
-			setMessage("story deleted");
-			set_story_fn("No Current Adventure");
-			setButtonMessage("Start Adventure");
-		    } else {
-			setMessage("res delete status not 200");
-		    }
-		} else {
-		    setMessage("Can't stop this story");
-		}
-				
+	    } catch (err) {
+		    setMessage(err.toString());
 	    }
-	} catch (err) {
-	    setMessage(err);
 	}
-    }
 
+
+	fetchData()
+	    .catch(console.error);
+	getStoryStates();
+    }, [id])
 
     if (story.name) {
 	return (
 	    <div>
-		<h2>{story.name} {id} {story_id}</h2>
-		<form className="start-stop-story-form" onSubmit={StartStopStory}>
-		<button><img src={story.picture_string} alt="Story (Sorry!)" /><p>{button_message}</p></button>
-		</form>
+		<h2>{story.name}</h2>
+		<img src={story.picture_string} alt="{story.name} banner" />
+		<div><h2>States</h2>{items}</div>
 		<p>{message}</p>
-		</div> );
+	    </div> );
 
     } else {
 	return(<div><p>Loading... {props.id}</p></div>);

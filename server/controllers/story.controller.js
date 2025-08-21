@@ -1,5 +1,6 @@
 const Story = require("../models/story.model.js");
 const StoryState = require("../models/story_state.model.js");
+const StoryFSAState = require("../models/story_fsa_state.model.js");
 
 const send_data = (res, data) => {
     if (data.message) {
@@ -134,7 +135,30 @@ const getStarts = async (req, res) => {
     send_data(res,data);
 };
 
+const add_story_state = async (req, res) => {
+    console.log("Story Controller add_story_state");
+    if (!req.body.story_id || !req.body.name || !req.body.type_marker) {
+	console.log(req.body);
+	data = {message:"missing parameter"};
 
-module.exports = { findOne, findAll, update, findOneState, create, findAllIds, getStarts, delete_story_state, create_story_state };
+    } else {
+	data = await StoryFSAState.create(req.body.story_id, req.body.name, req.body.type_marker);
+    }
+    send_data(res, data)
+}
+
+const get_states = async (req, res) => {
+    console.log("Story Controller get_states");
+    if (!req.body.story_id) {
+	console.log(req.body);
+	data = {message:"missing parameter"};
+
+    } else {
+	data = await StoryFSAState.getAll(req.body.story_id);
+    }
+    send_data(res, data)
+}
+
+module.exports = { findOne, findAll, update, findOneState, create, findAllIds, getStarts, delete_story_state, create_story_state, add_story_state, get_states };
 
 

@@ -4,7 +4,7 @@ import { ShowTardis } from "./show_tardis";
 import { ShowCharacterIP } from "../character/show_character_in_play.js";
 import { MoveCharacter } from "../character/show_move_character.js";
 import { ChangePov } from "../location/change_pov.js";
-import { ShowStory } from "../story/show_story";
+import { ShowStoryStartButton } from "../story/show_story_start_button";
 
 export const ShowLocationState = (props) => {
     const [loading, setLoading ] = useState(1);
@@ -109,7 +109,7 @@ export const ShowLocationState = (props) => {
 	    setStoryStartsHere(0);
 	    get_stories();
 	}
-    }, [id,user]);
+    }, [id,user,story_id]);
 
     if (loading) {
 	return (
@@ -123,9 +123,8 @@ export const ShowLocationState = (props) => {
     } else {
 	return (
 		<div>
-		<div>{story_id}</div>
 		<ShowLocation id={id} />
-		{story_starts_here !== 0 ? <ShowStory id={story_starts_here} story_id={story_id} user={user} set_story_fn = {setStory}/>: <p>No Story Starts Here</p>}
+		{story_starts_here !== 0 ? <ShowStoryStartButton id={story_starts_here} story_id={story_id} user={user} set_story_fn = {setStory}/>: <p>No Story Starts Here</p>}
 		<div className="character-panel"><div className="panel-row"><div className="thumbnails-center"><p>{characters_in_play(charactersInPlay)}</p></div>
 		<ChangePov user={user} change_pov={changePov} /></div></div>
 		{ tardis === id ? <ShowTardis user={user} characters={user.characters_in_tardis} location_update={set_characters} move={changePov}/> : <p>The Tardis is not Here</p>}

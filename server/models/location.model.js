@@ -8,6 +8,7 @@ const Location = function(location) {
 }
 
 Location.findById = async (id) => {
+    console.log("Location Model findById");
     if (id === undefined) {
 	console.log("Location ID undefined");
 	return({message: "no such location"});
@@ -27,7 +28,7 @@ Location.findById = async (id) => {
 };
 
 Location.getAll = async () => {
-    console.log("entered Location get all");
+//    console.log("Location Model get all");
 
     try {
 	let query = "SELECT * FROM locations";
@@ -41,7 +42,7 @@ Location.getAll = async () => {
 
 
 Location.getAllIds = async () => {
-    console.log("entered Location get all");
+//    console.log("Location Model get all Ids");
 
     try {
 	// let query = "SELECT id FROM locations";
@@ -55,9 +56,9 @@ Location.getAllIds = async () => {
 
 
 Location.updateById = async (id, location) => {
-    console.log("updating location");
-    console.log(location);
-    console.log(id);
+//    console.log("Location Model update By Id");
+//    console.log(location);
+//    console.log(id);
 
     try {
 	const [result, fields] = await sql.query(
@@ -74,8 +75,8 @@ Location.updateById = async (id, location) => {
 };
 
 Location.create = async (location) => {
-    console.log("creating location");
-    console.log(location);
+//    console.log("Location Model create");
+//    console.log(location);
 
     try {
 	const [result, fields] = await sql.query("INSERT INTO locations (name, description, picture) VALUES (?, ?, ?)", [location.name, location.description, location.picture]);
