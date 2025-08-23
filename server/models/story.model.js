@@ -88,9 +88,16 @@ Story.create = async (story) => {
 Story.getStarts = async (location_id) => {
     console.log("get story starts");
     try {
-	const [rows, fields] = await sql.query("Select story_id from story_start_locations WHERE location_id=?", [location_id]);
-	return rows[0];
+	const [rows, fields] = await sql.query("select story_id from story_start_locations WHERE location_id=?", [location_id]);
+	console.log("called sql");
+	console.log(rows[0]);
+	if (rows.length > 0) {
+	    return rows[0];
+	} else {
+	    return({message: "no story starts here"});
+	}
     } catch (err) {
+	console.log("sql error story starts");
 	console.log(err);
 	return({message: err});
     }

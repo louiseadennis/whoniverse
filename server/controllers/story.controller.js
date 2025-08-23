@@ -18,6 +18,7 @@ const create = async (req, res) => {
 	});
     }
 
+    console.log("creating story");
     data = await Story.create(new Story(req.body));
 
     send_data(res, data);
@@ -26,6 +27,7 @@ const create = async (req, res) => {
 
 // Retrieve all Locations from the database (with condition).
 const findAll = async (req, res) => {
+    console.log("entering story controller findall");
 
     data = await Story.getAll();
     send_data(res, data);
@@ -33,7 +35,7 @@ const findAll = async (req, res) => {
 };
 
 const findAllIds = async (req, res) => {
-
+    console.log("entering story controller findallids");
     data = await Story.getAllIds();
 //    console.log(data);
     send_data(res, data);
@@ -42,7 +44,7 @@ const findAllIds = async (req, res) => {
 
 // Find a single Location by Id
 const findOne = async (req, res) => {
-    console.log("entered sotry findOne " + req.body.id);
+    console.log("entered story findOne " + req.body.id);
     data = await Story.findById(req.body.id);
 //    console.log(data);
 
@@ -68,7 +70,7 @@ const update = async (req, res) => {
 	});
     }
 
-
+    console.log("updating story");
     data = await Story.updateById(req.body.location_id, new Story(req.body));
 
     send_data(res, data);
@@ -82,7 +84,9 @@ const getStarts = async (req, res) => {
 	});
     }
 
+    console.log("calling story starts in model");
     data = await Story.getStarts(req.body.location_id);
+    console.log("model returned");
     console.log(data)
     send_data(res,data);
 };
