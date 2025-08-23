@@ -16,4 +16,12 @@ router.post('/get_ids', story.findAllIds);
 
 router.post('/get_starts', story.getStarts);
 
+router.post('/create_story_state', story.create_story_state);
+
+router.post('/delete_story_state', story.delete_story_state);
+
+router.post('/add_story_state', story.add_story_state);
+
+router.post('/get_states', story.get_states);
+
 module.exports = router;

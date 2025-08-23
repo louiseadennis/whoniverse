@@ -1,0 +1,7 @@
+CREATE TABLE `story_state` (
+       `id` int NOT NULL AUTO_INCREMENT,
+       	    `story_id` int NOT NULL,
+	    `name` varchar(50),
+	    `type_marker` int NOT NULL,
+	    PRIMARY KEY (`id`)
+	    );

@@ -11,14 +11,14 @@ const send_data = (res, data) => {
 }
 
 const create = async (req, res) => {
+    // console.log("Location Controller create");
     // Validate Request
     if (!req.body) {
-	res.status(400).send({
-	    message: "Content can not be empty!"
-	});
-    }
+	data = {message: "Content can not be empty!"}
+    } else {
 
-    data = await Location.create(new Location(req.body));
+	data = await Location.create(new Location(req.body));
+    }
 
     send_data(res, data);
 
@@ -26,6 +26,7 @@ const create = async (req, res) => {
 
 // Retrieve all Locations from the database (with condition).
 const findAll = async (req, res) => {
+    // console.log("Location Controller findAll");
 
     data = await Location.getAll();
     send_data(res, data);
@@ -33,16 +34,17 @@ const findAll = async (req, res) => {
 };
 
 const findAllIds = async (req, res) => {
+    // console.log("Location Controller findAllIds");
 
     data = await Location.getAllIds();
-    console.log(data);
+//    console.log(data);
     send_data(res, data);
 
 };
 
 // Find a single Location by Id
 const findOne = async (req, res) => {
-    console.log("entered locations findOne " + req.body.id);
+//    console.log("Location Controller findOne " + req.body.id);
     data = await Location.findById(req.body.id);
 //    console.log(data);
 
@@ -52,7 +54,7 @@ const findOne = async (req, res) => {
 
 // Find a single Location State by Id and User Id
 const findOneState = async (req, res) => {
-    console.log("entered locations findOneState");
+//    console.log("Location Controller findOneState");
     data = await LocationState.findById(req.body.id, req.body.user_id);
 //    console.log(data);
 
@@ -61,15 +63,14 @@ const findOneState = async (req, res) => {
 
 // Update a Location identified by the id in the request
 const update = async (req, res) => {
+    // console.log("Location Controller update");
     // Validate Request
     if (!req.body) {
-	res.status(400).send({
-	    message: "Content can not be empty!"
-	});
+	data = {message: "Content can not be empty!"}
+    } else {
+	
+	data = await Location.updateById(req.body.location_id,   new Location(req.body));
     }
-
-
-    data = await Location.updateById(req.body.location_id,   new Location(req.body));
 
     send_data(res, data);
 };

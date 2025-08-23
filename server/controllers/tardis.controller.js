@@ -12,15 +12,15 @@ const send_data = (res, data) => {
 }
 
 const create = async (user_id) => {
- //   console.log("entered create tardis");
+    //   console.log("Tardis Controller entered create");
     data = await Tardis.create(user_id);
 
     return data;
 }
 
 const move = async (req, res) => {
-    console.log("entered tardis controller move");
-    console.log(req.location_id);
+    //    console.log("Tardis Controller move");
+//    console.log(req.location_id);
     const user_id = await Tardis.findUserID(req.body.tardis_id);
     data = await Tardis.move(req.body.tardis_id, req.body.location_id);
     data = await LocationState.change_pov(req.body.location_id, user_id);
@@ -29,7 +29,7 @@ const move = async (req, res) => {
 }
 
 const findOne = async (req, res) => {
-    console.log("entered tardis find one");
+    // console.log("Tardis Controller findOne");
     tardis_data = {};
 //    console.log(req.body.user_id);
 
@@ -37,14 +37,14 @@ const findOne = async (req, res) => {
 
 
     if (tardis_data) {
-	console.log(tardis_data);
+//	console.log(tardis_data);
 
 	if (tardis_data.id) {
 
 	    const characters = await CharacterIP.getAllInTardis(req.body.user_id);
 	    tardis_data.characters = characters;
 	} else {
-	    console.log("didn't have tardis data");
+//	    console.log("didn't have tardis data");
 	    tardis_data = {message: "no tardis data"};
 	}
     } else {
@@ -52,7 +52,7 @@ const findOne = async (req, res) => {
     }
 
     
-    console.log("sending tardis data...");
+//    console.log("sending tardis data...");
     // console.log(tardis_data);
     send_data(res, tardis_data);
 

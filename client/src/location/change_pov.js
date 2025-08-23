@@ -8,7 +8,30 @@ export const ChangePov = (props) => {
     const user = props.user;
     const change_pov = props.change_pov;
 
-    const character_names_locations = (character_list) => character_list.map((d) => <option value={d.location_id}>{d.name}</option>);
+    //    const character_names_locations = (character_list) => character_list.map((d) => <option value={d.location_id}>{d.name}</option>);
+    const character_names_locations = (character_list) => character_names_locations_build(character_list).map((d) => <option value={d.location_id}>{d.name}</option>);
+
+    const character_names_locations_build = (character_list) => {
+	const loc_map = new Map();
+	const options = []
+	for (var i = 0; i < character_list.length; i++) {
+	    var d = character_list[i];
+	    if (loc_map.has(d.location_id)) {
+		loc_map.get(d.location_id).push(d.name);
+	    } else {
+		loc_map.set(d.location_id, [d.name]);
+	    }
+//	    options.push({"name":d.name, "location_id":d.location_id});
+	}
+
+	const locations = loc_map.keys();
+	
+	locations.forEach((location) => (
+//	    options.push(option_build(loc_map.get(location), location))
+	    options.push({"name":loc_map.get(location).toString(), "location_id":location})
+	))
+	return options;
+    }
 
     const handlePOVChangeSubmit = async (e) => {
         e.preventDefault();
@@ -72,7 +95,7 @@ export const ChangePov = (props) => {
 
     return (
 	    <div>
-	    <form className="change-pov-form" onSubmit={handlePOVChangeSubmit}><button>Switch To</button><p><select onChange={(e) => setChar_pov(e.target.value)} value={char_pov}>{character_names_locations(characters)}</select></p></form>{message}
+	    <form className="change-pov-form" onSubmit={handlePOVChangeSubmit}><button>Switch To</button><p><select onChange={(e) => setChar_pov(e.target.value)} value={char_pov}>{character_names_locations(characters)}</select></p></form>
 	    </div>
     );
 }

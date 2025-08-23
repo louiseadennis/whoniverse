@@ -119,6 +119,7 @@ export const Develop = (props) => {
 			
 		</ul>
 	  </DevelopItem>
+
 	  <DevelopItem
 	  	title="Locations"
 		setActiveItem={setLocationsActive}
@@ -148,6 +149,7 @@ export const Develop = (props) => {
 			
 		</ul>
 	  </DevelopItem>
+	  
 	  <DevelopItem
 	    title="Characters"
 	    setActiveItem={setCharactersActive}
