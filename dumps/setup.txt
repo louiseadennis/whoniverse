@@ -1,0 +1,7 @@
+Follow steps in initial_setup
+mysql -u root -p whogame < DUMPFILE
+accounts_create
+characters_in_play_create
+location_state_create
+stories_in_play_create
+tardis_location_create

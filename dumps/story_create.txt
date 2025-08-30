@@ -1,6 +1,0 @@
-CREATE TABLE `stories` (
-       `id` int NOT NULL AUTO_INCREMENT,
-       `name` varchar(200) NOT NULL,
-       `picture` varchar(50),
-       PRIMARY KEY (`id`)
-       )

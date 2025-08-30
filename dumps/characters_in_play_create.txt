@@ -8,6 +8,8 @@ CREATE TABLE `characters_in_play` (
   `empathy` tinyint NOT NULL,
   `willpower` tinyint NOT NULL,
   `running` tinyint NOT NULL,
+  `location_id` int NOT NULL,
+  `icon` int NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
 
