@@ -1,3 +1,4 @@
 create database whogame;
 CREATE USER 'whogame'@'localhost' IDENTIFIED by 'loginpassword';
-GRANT SELECT, INSERT, DELETE on whogame.* TO 'whogame'@'localhost';
+GRANT SELECT, INSERT, DELETE, UPDATE on whogame.* TO 'whogame'@'localhost';
+
