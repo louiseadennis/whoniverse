@@ -137,10 +137,9 @@ const getStarts = async (req, res) => {
 
 const add_story_state = async (req, res) => {
     console.log("Story Controller add_story_state");
-    if (!req.body.story_id || !req.body.name || !req.body.type_marker) {
+    if (!req.body.story_id || !req.body.name ) {
 	console.log(req.body);
 	data = {message:"missing parameter"};
-
     } else {
 	data = await StoryFSAState.create(req.body.story_id, req.body.name, req.body.type_marker);
     }
